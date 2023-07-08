@@ -164,5 +164,10 @@
     "name": "RNWalletChatSpec",
     "type": "modules",
     "jsSrcsDir": "src"
+  },
+  "dependencies": {
+    "@stablelib/random": "^1.0.2",
+    "ethers": "5.7.2",
+    "react-native-webview": "^13.2.2"
   }
 }
