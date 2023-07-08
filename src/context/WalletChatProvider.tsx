@@ -1,22 +1,24 @@
-import React from 'react'
+import React from 'react';
 import {
   WalletChatContext,
   type WidgetState,
   type WidgetStateSetter,
-} from './WalletChatContext'
+} from './WalletChatContext';
 
 export function WalletChatProvider({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const [widgetState, setWidgetState] = React.useState<undefined | WidgetState>()
+  const [widgetState, setWidgetState] = React.useState<
+    undefined | WidgetState
+  >();
 
   const widgetStateSetter: WidgetStateSetter = React.useCallback(
     (key, value) =>
       setWidgetState((prevState) => ({ ...(prevState || {}), [key]: value })),
     []
-  )
+  );
 
   const providerValue = React.useMemo(
     () => ({
@@ -24,11 +26,11 @@ export function WalletChatProvider({
       setWidgetState: widgetStateSetter,
     }),
     [widgetState, widgetStateSetter]
-  )
+  );
 
   return (
     <WalletChatContext.Provider value={providerValue}>
       {children}
     </WalletChatContext.Provider>
-  )
+  );
 }

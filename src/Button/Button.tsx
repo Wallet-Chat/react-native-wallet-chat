@@ -1,31 +1,31 @@
-import React from 'react'
-import { Text } from 'react-native'
-import { TouchableOpacity, Image, View } from 'react-native'
-import { WalletChatContext } from 'src/context'
+import React from 'react';
+import { Text } from 'react-native';
+import { TouchableOpacity, Image, View } from 'react-native';
+import { WalletChatContext } from 'src/context';
 
 function getClickedNfts() {
   try {
     const clickedNfts =
       (typeof localStorage !== 'undefined' &&
         localStorage.getItem('clickedNfts')) ||
-      ''
+      '';
 
-    return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : []
+    return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : [];
   } catch (error: any) {
-    return []
+    return [];
   }
 }
 
 function setClickedNfts(foundNft: string) {
   try {
-    const clickedNfts = getClickedNfts()
-    const newClickedNfts = [...clickedNfts, foundNft]
+    const clickedNfts = getClickedNfts();
+    const newClickedNfts = [...clickedNfts, foundNft];
 
     if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts))
+      localStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts));
     }
   } catch (error: any) {
-    return null
+    return null;
   }
 }
 
@@ -35,26 +35,26 @@ export default function ButtonOverlay({
   isOpen,
   clickHandler,
 }: {
-  notiVal: number
-  showNoti: boolean
-  isOpen: boolean
-  clickHandler: (e: any) => void
+  notiVal: number;
+  showNoti: boolean;
+  isOpen: boolean;
+  clickHandler: (e: any) => void;
 }) {
-  const clickedNfts = getClickedNfts()
+  const clickedNfts = getClickedNfts();
 
-  const widgetContext = React.useContext(WalletChatContext)
-  const widgetState = widgetContext?.widgetState
-  const foundNft = widgetState?.foundNft
-  const foundNftId = foundNft && JSON.parse(foundNft).itemId
+  const widgetContext = React.useContext(WalletChatContext);
+  const widgetState = widgetContext?.widgetState;
+  const foundNft = widgetState?.foundNft;
+  const foundNftId = foundNft && JSON.parse(foundNft).itemId;
   const shouldRing =
     !isOpen &&
-    (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false)
+    (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
 
-  const [isRinging, setIsRinging] = React.useState(shouldRing)
+  const [isRinging, setIsRinging] = React.useState(shouldRing);
 
   React.useEffect(() => {
-      setIsRinging(shouldRing)
-  }, [shouldRing])
+    setIsRinging(shouldRing);
+  }, [shouldRing]);
 
   return (
     <View
@@ -62,53 +62,54 @@ export default function ButtonOverlay({
     //     [styles['popupButton__container--open']]: isOpen,
     //   })}
     >
-        {isRinging && (
-            <View
-                style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
-                    backgroundColor: "gray"
-                }}
-            />
-        )}
+      {isRinging && (
+        <View
+          style={{
+            width: 16,
+            height: 16,
+            borderRadius: 8,
+            backgroundColor: 'gray',
+          }}
+        />
+      )}
 
-        <TouchableOpacity
-            onPress={(e: any) => {
-            setIsRinging(false)
-            if (foundNft) {
-                setClickedNfts(foundNft)
-            }
-            clickHandler(e)
-            }}
-        >
-          <Image
-            alt='WalletChat'
-            source={{ uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png'}}
-            style={{ height: '90%' }}
-          />
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={(e: any) => {
+          setIsRinging(false);
+          if (foundNft) {
+            setClickedNfts(foundNft);
+          }
+          clickHandler(e);
+        }}
+      >
+        <Image
+          alt="WalletChat"
+          source={{
+            uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
+          }}
+          style={{ height: '90%' }}
+        />
+      </TouchableOpacity>
 
       {showNoti && (
-        <View 
-            style={{
-                position: "absolute",
-                backgroundColor: "ff477e",
-                width: 7,
-                height: 7,
-                alignItems: "center",
-            }} 
+        <View
+          style={{
+            position: 'absolute',
+            backgroundColor: 'ff477e',
+            width: 7,
+            height: 7,
+            alignItems: 'center',
+          }}
         >
-            <Text
-                style={{
-                    color: "white"
-                }}
-            >
-                {notiVal}
-            </Text>
-
+          <Text
+            style={{
+              color: 'white',
+            }}
+          >
+            {notiVal}
+          </Text>
         </View>
       )}
     </View>
-  )
+  );
 }
