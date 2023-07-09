@@ -202,6 +202,7 @@ export default function WalletChatWidget({
 
     //not forcing this to be open until we can prevent the previous line from happening over and over
     //setIsOpen(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedMessageDataLocal]);
 
   React.useEffect(() => {
@@ -279,6 +280,7 @@ export default function WalletChatWidget({
     window.addEventListener('message', handleMsg);
 
     return () => window.removeEventListener('message', handleMsg);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
   return (

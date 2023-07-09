@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import WalletChatWidget from 'react-native-wallet-chat';
 
 export default function App() {
-
   return (
     <View style={styles.container}>
       <WalletChatWidget />
