@@ -1,18 +1,13 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-wallet-chat';
+import { StyleSheet, View } from 'react-native';
+import WalletChatWidget from 'react-native-wallet-chat';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <WalletChatWidget />
     </View>
   );
 }
