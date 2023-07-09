@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { TouchableOpacity, Image, View } from 'react-native';
-import { WalletChatContext } from 'src/context';
+import { WalletChatContext } from '../context';
 
 function getClickedNfts() {
   try {
