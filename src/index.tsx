@@ -251,8 +251,8 @@ export default function WalletChatWidget({
 
       if (
         data.target === 'url_env' &&
-        data.data !== URL &&
-        !import.meta.env.VITE_REACT_APP_APP_URL
+        data.data !== URL
+        // !import.meta.url.VITE_REACT_APP_APP_URL
       ) {
         //console.log("Widget Setting iFrame URL: ", data.data)
         setUrl(data.data);
