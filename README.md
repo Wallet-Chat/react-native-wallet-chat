@@ -10,26 +10,26 @@ npm install react-native-wallet-chat
 
 ## Usage
 
+Add in your App.js 
+
 ```js
 import WalletChatProvider from 'react-native-wallet-chat';
 
 // ...
-Add in your App.js 
-export const App = () => {
 
+export const App = () => {
   return (
       <WalletChatProvider />
   )
 }
 ```
+Add in any component
 
 ```js
 import WalletChatWidget from 'react-native-wallet-chat';
 
 // ...
-Add in any component
 export const DashBoard = () => {
-
   return (
       <WalletChatWidget
             connectedWallet={
