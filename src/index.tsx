@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -285,7 +285,11 @@ export default function WalletChatWidget({
 
   return (
     <View>
-      <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
+      {Platform.OS === "web" ? (
+        <iframe src={url} height={'100%'} width={'100%'} />
+      ): (
+        <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
+      )}
       <ButtonOverlay
         notiVal={numUnread}
         showNoti={numUnread > 0}
