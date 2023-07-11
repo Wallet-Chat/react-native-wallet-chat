@@ -285,11 +285,14 @@ export default function WalletChatWidget({
 
   return (
     <View>
-      {Platform.OS === "web" && isOpen ? (
+      {Platform.OS === "web" && isOpen && (
         <iframe src={url} height={'100%'} width={'100%'} />
-      ): (
+      )}
+      
+      {Platform.OS !== "web" && isOpen && (
         <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
       )}
+    
       <ButtonOverlay
         notiVal={numUnread}
         showNoti={numUnread > 0}
