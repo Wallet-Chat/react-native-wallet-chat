@@ -6,13 +6,13 @@ import type {
   ConnectedWallet,
   MessagedWallet,
   SignedMessageData,
-} from './types';
-import { WalletChatContext } from './context';
+} from '../types';
+import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
-import { parseNftFromUrl } from './utils';
+import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
 import WebView from 'react-native-webview';
-import ButtonOverlay from './Button/Button';
+import ButtonOverlay from '../Button/Button';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
