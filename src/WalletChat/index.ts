@@ -1,1 +1,1 @@
-export { default } from './walletchat';
+export { default } from './WalletChat';
