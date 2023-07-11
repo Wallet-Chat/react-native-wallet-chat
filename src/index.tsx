@@ -285,7 +285,7 @@ export default function WalletChatWidget({
 
   return (
     <View>
-      {Platform.OS === "web" ? (
+      {Platform.OS === "web" && isOpen ? (
         <iframe src={url} height={'100%'} width={'100%'} />
       ): (
         <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
