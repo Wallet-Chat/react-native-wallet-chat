@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-wallet-chat": ["./*"]
+      "react-native-wallet-chat": ["./index*"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
