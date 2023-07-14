@@ -329,13 +329,13 @@ export default function WalletChatWidget({
 
   return (
     <View>
-      {Platform.OS === "web" && isOpen && (
+      {/* {Platform.OS === "web" && isOpen && (
         <iframe id={iframeId} src={url} height={'100%'} width={'100%'} />
       )}
       
       {Platform.OS !== "web" && isOpen && (
         <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
-      )}
+      )} */}
     
       {/* <ButtonOverlay
         notiVal={numUnread}
@@ -343,7 +343,7 @@ export default function WalletChatWidget({
         isOpen={isOpen}
         clickHandler={clickHandler}
       /> */}
-      {isRinging && (
+      {/* {isRinging && (
         <View
           style={{
             width: 16,
@@ -352,7 +352,7 @@ export default function WalletChatWidget({
             backgroundColor: 'gray',
           }}
         />
-      )}
+      )} */}
 
       <TouchableOpacity
         onPress={() => {
@@ -372,7 +372,7 @@ export default function WalletChatWidget({
         />
       </TouchableOpacity>
 
-      {numUnread > 0 && (
+      {/* {numUnread > 0 && (
         <View
           style={{
             position: 'absolute',
@@ -390,7 +390,7 @@ export default function WalletChatWidget({
             {numUnread}
           </Text>
         </View>
-      )}
+      )} */}
     </View>
   );
 }
