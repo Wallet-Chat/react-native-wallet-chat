@@ -12,7 +12,7 @@ import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
 import WebView from 'react-native-webview';
-import ButtonOverlay from '../Button/Button';
+import ButtonOverlay from '../Button';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
@@ -285,9 +285,9 @@ export default function WalletChatWidget({
 
   return (
     <View>
-      {/* {Platform.OS === "web" && isOpen && ( */}
+      {Platform.OS === "web" && isOpen && (
         <iframe id={iframeId} src={url} height={'100%'} width={'100%'} />
-      {/* // )} */}
+      )}
       
       {Platform.OS !== "web" && isOpen && (
         <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
