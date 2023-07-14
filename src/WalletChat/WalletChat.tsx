@@ -12,7 +12,10 @@ import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
 import WebView from 'react-native-webview';
-import ButtonOverlay from 'src/ButtonOverlay/ButtonOverlay';
+// import ButtonOverlay from 'src/ButtonOverlay/ButtonOverlay';
+import { TouchableOpacity } from 'react-native';
+import { Image } from 'react-native';
+import { Text } from 'react-native';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
@@ -63,6 +66,19 @@ export default function WalletChatWidget({
       chainId: 1,
       provider: '',
     });
+
+  const clickedNfts = getClickedNfts();
+  const foundNft = widgetState?.foundNft;
+  const foundNftId = foundNft && JSON.parse(foundNft).itemId;
+  const shouldRing =
+    !isOpen &&
+    (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
+
+  const [isRinging, setIsRinging] = React.useState(shouldRing);
+
+  React.useEffect(() => {
+    setIsRinging(shouldRing);
+  }, [shouldRing]);
 
   async function trySignIn(wallet?: MessagedWallet) {
     if (wallet) {
@@ -283,6 +299,34 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
+  function getClickedNfts() {
+    try {
+      const clickedNfts =
+        (typeof localStorage !== 'undefined' &&
+          localStorage.getItem('clickedNfts')) ||
+        '';
+  
+      return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : [];
+    } catch (error: any) {
+      return [];
+    }
+  }
+
+  function setClickedNfts(foundNft: string) {
+    try {
+      const clickedNfts = getClickedNfts();
+      const newClickedNfts = [...clickedNfts, foundNft];
+  
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts));
+      }
+    } catch (error: any) {
+      return null;
+    }
+  }
+
+  
+
   return (
     <View>
       {Platform.OS === "web" && isOpen && (
@@ -293,12 +337,60 @@ export default function WalletChatWidget({
         <WebView id={iframeId} source={{ uri: url }} style={{ flex: 1 }} />
       )}
     
-      <ButtonOverlay
+      {/* <ButtonOverlay
         notiVal={numUnread}
         showNoti={numUnread > 0}
         isOpen={isOpen}
         clickHandler={clickHandler}
-      />
+      /> */}
+      {isRinging && (
+        <View
+          style={{
+            width: 16,
+            height: 16,
+            borderRadius: 8,
+            backgroundColor: 'gray',
+          }}
+        />
+      )}
+
+      <TouchableOpacity
+        onPress={() => {
+          setIsRinging(false);
+          if (foundNft) {
+            setClickedNfts(foundNft);
+          }
+          clickHandler();
+        }}
+      >
+        <Image
+          alt="WalletChat"
+          source={{
+            uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
+          }}
+          style={{ height: '90%' }}
+        />
+      </TouchableOpacity>
+
+      {numUnread > 0 && (
+        <View
+          style={{
+            position: 'absolute',
+            backgroundColor: 'ff477e',
+            width: 7,
+            height: 7,
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+            }}
+          >
+            {numUnread}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
