@@ -12,7 +12,7 @@ import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
 import WebView from 'react-native-webview';
-import ButtonOverlay from '../Button';
+import ButtonOverlay from 'src/ButtonOverlay/ButtonOverlay';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
