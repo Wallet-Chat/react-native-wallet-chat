@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { TouchableOpacity, Image, View } from 'react-native';
 import { WalletChatContext } from '../context';
+import styles from './ButtonOverlay.module.css'
+import classNames from 'classnames';
 
 function getClickedNfts() {
   try {
@@ -58,22 +59,19 @@ export default function ButtonOverlay({
 
   return (
     <View
-    //   className={classnames(styles.popupButton__container, {
-    //     [styles['popupButton__container--open']]: isOpen,
-    //   })}
+      className={classNames(styles.popupButton__container, {
+        [styles['popupButton__container--open']]: isOpen,
+      })}
     >
       {isRinging && (
-        <View
-          style={{
-            width: 16,
-            height: 16,
-            borderRadius: 8,
-            backgroundColor: 'gray',
-          }}
+        <span
+          className={isRinging ? styles.ring : undefined}
+          style={{ boxShadow: 'none' }}
         />
       )}
 
       <TouchableOpacity
+        className={styles.popupButton}
         onPress={(e: any) => {
           setIsRinging(false);
           if (foundNft) {
@@ -82,33 +80,47 @@ export default function ButtonOverlay({
           clickHandler(e);
         }}
       >
-        <Image
-          alt="WalletChat"
-          source={{
-            uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
-          }}
-          style={{ height: '90%' }}
-        />
+        <View
+          className={classNames(styles.icon, {
+            [styles.activeIcon]: !isOpen,
+            [styles.inactiveIcon]: isOpen,
+          })}
+        >
+          <Image
+            alt="WalletChat"
+            source={{
+              uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
+            }}
+            style={{ height: '90%' }}
+          />
+        </View>
+        <View
+          className={classNames(styles.icon, {
+            [styles.activeIcon]: isOpen,
+            [styles.inactiveIcon]: !isOpen,
+          })}
+        >
+          <svg
+            focusable='false'
+            viewBox='0 0 16 14'
+            width='28'
+            height='25'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              fillRule='evenodd'
+              clipRule='evenodd'
+              d='M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z'
+            />
+          </svg>
+        </View>
       </TouchableOpacity>
 
       {showNoti && (
-        <View
-          style={{
-            position: 'absolute',
-            backgroundColor: 'ff477e',
-            width: 7,
-            height: 7,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              color: 'white',
-            }}
-          >
-            {notiVal}
-          </Text>
-        </View>
+        <>
+          <span className={classNames(styles.notif, styles.pinging)} />
+          <span className={styles.notif}>{notiVal}</span>
+        </>
       )}
     </View>
   );
