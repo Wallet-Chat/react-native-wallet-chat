@@ -4,6 +4,10 @@
   "description": "Wallet Chat React Native Component Library",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
+  "exports": {
+    "./lib/module/WalletChat/WalletChat.module.css": "./lib/module/WalletChat/WalletChat.module.css",
+    "./lib/module/ButtonOverlay/ButtonOverlay.module.css": "./lib/module/ButtonOverlay/ButtonOverlay.module.css"
+  },
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
