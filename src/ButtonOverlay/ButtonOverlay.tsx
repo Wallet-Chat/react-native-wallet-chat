@@ -28,7 +28,7 @@ function setClickedNfts(foundNft: string) {
   }
 }
 
-export default function ButtonOverlay({
+export function ButtonOverlay({
   notiVal,
   showNoti,
   isOpen,

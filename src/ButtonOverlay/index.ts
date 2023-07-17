@@ -1,1 +1,1 @@
-export { default } from './ButtonOverlay';
+export { ButtonOverlay } from './ButtonOverlay';
