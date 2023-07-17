@@ -1,6 +1,5 @@
-import { Platform, View } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 import React from 'react';
-import classNames from 'classnames';
 import type {
   API,
   AppAPI,
@@ -12,13 +11,12 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import styles from './WalletChat.module.css'
 import WebView from 'react-native-webview';
 import ButtonOverlay from 'src/ButtonOverlay/ButtonOverlay';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
-const iframeId = styles['wallet-chat-widget']
+const iframeId = 'wallet-chat-widget'
 
 function postMessage(data: API) {
   if (typeof document === 'undefined') return;
@@ -287,38 +285,80 @@ export default function WalletChatWidget({
 
   return (
     <View
-      className={classNames(styles['wallet-chat-widget__container'], {
-        [styles['wallet-chat-widget__container--open']]: isOpen,
-      })}
+      style={[
+        styles.widgetChatWidgetContainer,
+        isOpen && styles.widgetChatWidgetContainerOpen,
+      ]}
     >
-      {Platform.OS === "web" && isOpen && (
-        <iframe 
-          id={iframeId} 
-          src={url} 
-          className={classNames('', {
-            [styles['widget-is-open']]: isOpen,
-            [styles['widget-is-closed']]: !isOpen,
-          })}
-        />
-      )}
-      
-      {Platform.OS !== "web" && isOpen && (
-        <WebView 
-          id={iframeId} 
-          source={{ uri: url }} 
-          className={classNames('', {
-            [styles['widget-is-open']]: isOpen,
-            [styles['widget-is-closed']]: !isOpen,
-          })}
-        />
-      )}
-    
-      <ButtonOverlay
-        notiVal={numUnread}
-        showNoti={numUnread > 0}
-        isOpen={isOpen}
-        clickHandler={clickHandler}
+    {Platform.OS === 'web' && isOpen && (
+      <iframe
+        id={iframeId}
+        src={url}
+        //@ts-ignore
+        style={[
+          styles.widgetChatWidget,
+          isOpen && styles.widgetIsOpen,
+          !isOpen && styles.widgetIsClosed,
+        ]}
       />
-    </View>
+    )}
+
+    {Platform.OS !== 'web' && isOpen && (
+      <WebView
+        id={iframeId}
+        source={{ uri: url }}
+        style={[
+          styles.widgetChatWidget,
+          isOpen && styles.widgetIsOpen,
+          !isOpen && styles.widgetIsClosed,
+        ]}
+      />
+    )}
+
+    <ButtonOverlay
+      notiVal={numUnread}
+      showNoti={numUnread > 0}
+      isOpen={isOpen}
+      clickHandler={clickHandler}
+    />
+  </View>
   );
 }
+
+const styles = StyleSheet.create({
+  widgetChatWidgetContainer: {
+    position: 'absolute',
+    bottom: 2,
+    right: 6,
+    zIndex: 1000,
+    userSelect: 'none',
+    // Android-specific shadow
+    elevation: 4,
+    // iOS-specific shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+  },
+  widgetChatWidgetContainerOpen: {
+    bottom: 0,
+    right: 0,
+  },
+  widgetChatWidget: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  widgetIsOpen: {
+    height: '100%',
+    width: '100%',
+    minHeight: '100%',
+    minWidth: '100%',
+    transform: [{ translateX: -4 }, { translateY: -2 }],
+  },
+  widgetIsClosed: {
+    height: 0,
+    width: 0,
+    minHeight: 0,
+    minWidth: 0,
+  },
+});

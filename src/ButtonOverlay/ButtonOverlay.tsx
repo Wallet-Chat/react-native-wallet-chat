@@ -1,8 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Image, View } from 'react-native';
+import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
-import styles from './ButtonOverlay.module.css'
-import classNames from 'classnames';
 
 function getClickedNfts() {
   try {
@@ -55,23 +53,44 @@ export default function ButtonOverlay({
 
   React.useEffect(() => {
     setIsRinging(shouldRing);
+
+    if (shouldRing) {
+      // Start the animation when isRinging becomes true
+      const animationInterval = setInterval(() => {
+        setIsRinging((prev) => !prev); // Toggle the isRinging state to create the animation effect
+      }, 1000);
+
+      return () => {
+        clearInterval(animationInterval); // Clean up the interval when the component unmounts
+      };
+    }
   }, [shouldRing]);
 
   return (
     <View
-      className={classNames(styles.popupButton__container, {
-        [styles['popupButton__container--open']]: isOpen,
-      })}
+      style={[
+        styles.popupButton__container,
+        isOpen && styles.popupButton__containerOpen,
+      ]}
     >
-      {isRinging && (
-        <span
-          className={isRinging ? styles.ring : undefined}
-          style={{ boxShadow: 'none' }}
+       {isRinging && (
+        <View
+          style={[
+            styles.ring,
+            {
+              opacity: isRinging ? 0.75 : 0,
+              transform: [
+                {
+                  scale: isRinging ? 1.2 : 1,
+                },
+              ],
+            },
+          ]}
         />
       )}
 
       <TouchableOpacity
-        className={styles.popupButton}
+        style={styles.popupButton}
         onPress={(e: any) => {
           setIsRinging(false);
           if (foundNft) {
@@ -81,10 +100,10 @@ export default function ButtonOverlay({
         }}
       >
         <View
-          className={classNames(styles.icon, {
-            [styles.activeIcon]: !isOpen,
-            [styles.inactiveIcon]: isOpen,
-          })}
+          style={[
+            styles.icon,
+            !isOpen ? styles.activeIcon : styles.inactiveIcon,
+          ]}
         >
           <Image
             alt="WalletChat"
@@ -95,10 +114,10 @@ export default function ButtonOverlay({
           />
         </View>
         <View
-          className={classNames(styles.icon, {
-            [styles.activeIcon]: isOpen,
-            [styles.inactiveIcon]: !isOpen,
-          })}
+          style={[
+            styles.icon,
+            isOpen ? styles.activeIcon : styles.inactiveIcon,
+          ]}
         >
           <svg
             focusable='false'
@@ -118,10 +137,92 @@ export default function ButtonOverlay({
 
       {showNoti && (
         <>
-          <span className={classNames(styles.notif, styles.pinging)} />
-          <span className={styles.notif}>{notiVal}</span>
+          <View style={styles.notifPing} />
+          <View style={styles.notif}>
+            <span style={styles.notifText}>{notiVal}</span>
+          </View>
         </>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  popupButton__container: {
+    position: 'relative',
+    marginTop: 3,
+    height: 48, // You can adjust this value as needed
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+  },
+  popupButton__containerOpen: {
+    right: 6,
+    marginTop: 0,
+    transform: [{ translateY: 0 }],
+  },
+  popupButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 48, // You can adjust this value as needed
+    height: 48, // You can adjust this value as needed
+    borderRadius: 24, // half of width and height to make it round
+    overflow: 'hidden',
+    backgroundColor: '#000',
+  },
+  icon: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  inactiveIcon: {
+    position: 'absolute',
+    opacity: 0,
+    transform: [{ rotate: '30deg' }, { scale: 0 }],
+  },
+  activeIcon: {
+    position: 'absolute',
+    opacity: 1,
+    transform: [{ rotate: '0deg' }],
+  },
+  ring: {
+    position: 'absolute',
+    width: 48, // You can adjust this value as needed
+    height: 48, // You can adjust this value as needed
+    right: 0,
+    borderRadius: 24, // half of width and height to make it round
+    backgroundColor: '#718096',
+    opacity: 0.75,
+  },
+  notifPing: {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    width: 24,
+    height: 24,
+    backgroundColor: '#f56565',
+    borderRadius: 12,
+    animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+  },
+  notif: {
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    backgroundColor: '#f56565',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notifText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    lineHeight: 12,
+  },
+});

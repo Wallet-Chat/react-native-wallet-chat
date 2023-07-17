@@ -1,13 +1,9 @@
 {
   "name": "react-native-wallet-chat",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Wallet Chat React Native Component Library",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "exports": {
-    "./lib/module/WalletChat/WalletChat.module.css": "./lib/module/WalletChat/WalletChat.module.css",
-    "./lib/module/ButtonOverlay/ButtonOverlay.module.css": "./lib/module/ButtonOverlay/ButtonOverlay.module.css"
-  },
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
@@ -72,7 +68,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
     "pod-install": "^0.1.0",
-    "postcss": "8.4.21",
     "prettier": "^2.0.5",
     "react": "18.2.0",
     "react-native": "0.72.1",
@@ -173,9 +168,7 @@
   },
   "dependencies": {
     "@stablelib/random": "^1.0.2",
-    "classnames": "^2.3.2",
     "ethers": "5.7.2",
-    "nativewind": "^2.0.11",
     "react-native-webview": "^13.2.2"
   }
 }
