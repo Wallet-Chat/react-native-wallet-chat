@@ -110,7 +110,7 @@ export function ButtonOverlay({
             source={{
               uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
             }}
-            style={{ height: '90%' }}
+            // style={{ height: '90%' }}
           />
         </View>
         <View
@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    width: 48, // You can adjust this value as needed
-    height: 48, // You can adjust this value as needed
-    borderRadius: 24, // half of width and height to make it round
+    width: 24, // You can adjust this value as needed
+    height: 24, // You can adjust this value as needed
+    borderRadius: 12, // half of width and height to make it round
     overflow: 'hidden',
     backgroundColor: '#000',
   },
