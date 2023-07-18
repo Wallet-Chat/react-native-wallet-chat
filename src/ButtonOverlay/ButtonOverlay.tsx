@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    width: 24, // You can adjust this value as needed
-    height: 24, // You can adjust this value as needed
-    borderRadius: 12, // half of width and height to make it round
+    width: 40, // You can adjust this value as needed
+    height: 40, // You can adjust this value as needed
+    borderRadius: 20, // half of width and height to make it round
     overflow: 'hidden',
     backgroundColor: '#000',
   },
