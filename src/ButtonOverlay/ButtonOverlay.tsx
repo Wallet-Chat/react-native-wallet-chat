@@ -90,7 +90,6 @@ export function ButtonOverlay({
       )}
 
       <TouchableOpacity
-        style={styles.popupButton}
         onPress={(e: any) => {
           setIsRinging(false);
           if (foundNft) {
@@ -106,11 +105,11 @@ export function ButtonOverlay({
           ]}
         >
           <Image
+            style={styles.popupButton}
             alt="WalletChat"
             source={{
               uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
             }}
-            // style={{ height: '90%' }}
           />
         </View>
         <View
@@ -178,6 +177,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    marginLeft: 60,
+    marginTop: 10,
   },
   inactiveIcon: {
     position: 'absolute',
@@ -191,10 +192,10 @@ const styles = StyleSheet.create({
   },
   ring: {
     position: 'absolute',
-    width: 48, // You can adjust this value as needed
-    height: 48, // You can adjust this value as needed
+    width: 40, // You can adjust this value as needed
+    height: 40, // You can adjust this value as needed
     right: 0,
-    borderRadius: 24, // half of width and height to make it round
+    borderRadius: 20, // half of width and height to make it round
     backgroundColor: '#718096',
     opacity: 0.75,
   },
