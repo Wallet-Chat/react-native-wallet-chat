@@ -291,16 +291,27 @@ export default function WalletChatWidget({
       ]}
     >
     {Platform.OS === 'web' && isOpen && (
-      <iframe
-        id={iframeId}
-        src={url}
-        //@ts-ignore
+      <WebView
+        source={{ uri: url }}
         style={[
           styles.widgetChatWidget,
           isOpen && styles.widgetIsOpen,
           !isOpen && styles.widgetIsClosed,
         ]}
+        injectedJavaScript={`window.walletchat_iframe_id = '${iframeId}';`}
       />
+      // <iframe
+      //   title='WalletChat'
+      //   name='WalletChat'
+      //   id={iframeId}
+      //   src={url}
+      //   //@ts-ignore
+      //   style={[
+      //     styles.widgetChatWidget,
+      //     isOpen && styles.widgetIsOpen,
+      //     !isOpen && styles.widgetIsClosed,
+      //   ]}
+      // />
     )}
 
     {Platform.OS !== 'web' && isOpen && (
