@@ -291,30 +291,21 @@ export default function WalletChatWidget({
       ]}
     >
     {Platform.OS === 'web' && isOpen && (
-      <WebView
-        source={{ uri: url }}
+      <iframe
+        title='WalletChat'
+        name='WalletChat'
+        id={iframeId}
+        src={url}
+        //@ts-ignore
         style={[
           styles.widgetChatWidget,
           isOpen && styles.widgetIsOpen,
           !isOpen && styles.widgetIsClosed,
         ]}
-        injectedJavaScript={`window.walletchat_iframe_id = '${iframeId}';`}
       />
-      // <iframe
-      //   title='WalletChat'
-      //   name='WalletChat'
-      //   id={iframeId}
-      //   src={url}
-      //   //@ts-ignore
-      //   style={[
-      //     styles.widgetChatWidget,
-      //     isOpen && styles.widgetIsOpen,
-      //     !isOpen && styles.widgetIsClosed,
-      //   ]}
-      // />
     )}
 
-    {Platform.OS !== 'web' && isOpen && (
+    {/* {Platform.OS !== 'web' && isOpen && (
       <WebView
         id={iframeId}
         source={{ uri: url }}
@@ -324,7 +315,7 @@ export default function WalletChatWidget({
           !isOpen && styles.widgetIsClosed,
         ]}
       />
-    )}
+    )} */}
 
     <ButtonOverlay
       notiVal={numUnread}
@@ -358,6 +349,9 @@ const styles = StyleSheet.create({
   widgetChatWidget: {
     borderRadius: 16,
     overflow: 'hidden',
+    height: "100%",
+    width: "100%",
+    marginTop: "20%"
   },
   widgetIsOpen: {
     height: '100%',
