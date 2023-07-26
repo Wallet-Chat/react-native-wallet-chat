@@ -11,7 +11,7 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import WebView from 'react-native-webview';
+// import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
 let URL = 'https://gooddollar.walletchat.fun';
