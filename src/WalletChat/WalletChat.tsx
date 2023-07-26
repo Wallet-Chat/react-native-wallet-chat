@@ -285,10 +285,10 @@ export default function WalletChatWidget({
 
   return (
     <View
-      style={[
-        styles.widgetChatWidgetContainer,
-        isOpen && styles.widgetChatWidgetContainerOpen,
-      ]}
+      style={{
+        ...styles.widgetChatWidgetContainer,
+        ...(isOpen && styles.widgetChatWidgetContainerOpen),
+      }}
     >
     {Platform.OS === 'web' && isOpen && (
       <iframe
@@ -297,11 +297,10 @@ export default function WalletChatWidget({
         id={iframeId}
         src={url}
         //@ts-ignore
-        style={[
-          styles.widgetChatWidget,
-          isOpen && styles.widgetIsOpen,
-          !isOpen && styles.widgetIsClosed,
-        ]}
+        style={{
+          ...styles.widgetChatWidget,
+          ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+        }}
       />
     )}
 
