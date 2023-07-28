@@ -1,6 +1,5 @@
 import { Platform, View, StyleSheet } from 'react-native';
 import React from 'react';
-import classNames from 'classnames'
 import type {
   API,
   AppAPI,
@@ -298,10 +297,10 @@ export default function WalletChatWidget({
         id={iframeId}
         src={url}
         //@ts-ignore
-        className={classNames('', {
+        style={{
           ...styles.widgetChatWidget,
           ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
-        })}
+        }}
       />
     )}
 
@@ -349,8 +348,8 @@ const styles = StyleSheet.create({
   widgetChatWidget: {
     borderRadius: 16,
     overflow: 'hidden',
-    height: "100%",
-    width: "100%",
+    // height: "100%",
+    // width: "100%",
     // marginTop: "20%"
   },
   widgetIsOpen: {

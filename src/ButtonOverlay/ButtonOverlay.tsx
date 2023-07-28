@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
+import { Text } from 'react-native';
 
 function getClickedNfts() {
   try {
@@ -138,7 +139,7 @@ export function ButtonOverlay({
         <>
           <View style={styles.notifPing} />
           <View style={styles.notif}>
-            <span style={styles.notifText}>{notiVal}</span>
+            <Text style={styles.notifText}>{notiVal}</Text>
           </View>
         </>
       )}
