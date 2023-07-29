@@ -292,7 +292,7 @@ export default function WalletChatWidget({
       }}
     >
     {Platform.OS === 'web' && isOpen && (
-      <Overlay isVisible={isOpen} fullScreen={true}>
+      <Overlay isVisible={isOpen} overlayStyle={{ width: "100%", height: "100%" }}>
         <iframe
           title='WalletChat'
           name='WalletChat'
