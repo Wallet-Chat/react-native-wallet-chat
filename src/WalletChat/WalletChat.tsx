@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet } from 'react-native';
+import { Platform, View, StyleSheet, Modal } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -11,7 +11,7 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import { Overlay } from 'react-native-elements';
+// import { Overlay } from 'react-native-elements';
 // import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
@@ -292,7 +292,7 @@ export default function WalletChatWidget({
       }}
     >
     {Platform.OS === 'web' && isOpen && (
-      <Overlay isVisible={isOpen} overlayStyle={{ width: "100%", height: "100%" }}>
+      <Modal visible={isOpen} style={{ width: "100%", height: "100%" }} >
         <iframe
           title='WalletChat'
           name='WalletChat'
@@ -304,7 +304,7 @@ export default function WalletChatWidget({
             ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
           }}
         />
-      </Overlay>
+      </Modal>
     )}
 
     {/* {Platform.OS !== 'web' && isOpen && (
