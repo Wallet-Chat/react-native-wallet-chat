@@ -11,7 +11,6 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import { Modal, Portal  } from "react-native-paper"
 // import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
@@ -292,21 +291,17 @@ export default function WalletChatWidget({
       }}
     >
     {Platform.OS === 'web' && isOpen && (
-      <Portal>
-        <Modal visible={isOpen} >
-          <iframe
-            title='WalletChat'
-            name='WalletChat'
-            id={iframeId}
-            src={url}
-            //@ts-ignore
-            style={{
-              ...styles.widgetChatWidget,
-              ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
-            }}
-          />
-        </Modal>
-      </Portal>
+      <iframe
+        title='WalletChat'
+        name='WalletChat'
+        id={iframeId}
+        src={url}
+        //@ts-ignore
+        style={{
+          ...styles.widgetChatWidget,
+          ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+        }}
+      />
     )}
 
     {/* {Platform.OS !== 'web' && isOpen && (
@@ -353,6 +348,11 @@ const styles = StyleSheet.create({
   widgetChatWidget: {
     borderRadius: 16,
     overflow: 'hidden',
+    height: '100%',
+    width: '100%',
+    minHeight: '100%',
+    minWidth: '100%',
+    zIndex: 1001,
   },
   widgetIsOpen: {
     height: '100%',
