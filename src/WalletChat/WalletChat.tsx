@@ -292,18 +292,25 @@ export default function WalletChatWidget({
         }}
       >
       {Platform.OS === 'web' && isOpen && (
-        <Modal>
-          <iframe
-            title='WalletChat'
-            name='WalletChat'
-            id={iframeId}
-            src={url}
-            //@ts-ignore
-            style={{
-              ...styles.widgetChatWidget,
-              ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
-            }}
-          />
+        <Modal
+          visible={isOpen}
+          transparent={true}
+          animationType='slide'
+          style={styles.modalContainer}
+        >
+          <View style={styles.modalContent} >
+            <iframe
+              title='WalletChat'
+              name='WalletChat'
+              id={iframeId}
+              src={url}
+              //@ts-ignore
+              style={{
+                ...styles.widgetChatWidget,
+                ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+              }}
+            />
+          </View>
         </Modal>
       )}
 
@@ -365,5 +372,16 @@ const styles = StyleSheet.create({
     width: 0,
     minHeight: 0,
     minWidth: 0,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    height: '50%', // Set your desired height here
+    width: '50%', // Set your desired width here
+    borderRadius: 16,
+    overflow: 'hidden',
   },
 });
