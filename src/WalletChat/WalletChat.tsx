@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet } from 'react-native';
+import { Platform, View, StyleSheet, Modal } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -11,7 +11,7 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import { PaperProvider, Portal } from "react-native-paper"
+// import { PaperProvider} from "react-native-paper"
 // import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
@@ -285,7 +285,6 @@ export default function WalletChatWidget({
   }, [doSignIn]);
 
   return (
-    <PaperProvider>
       <View
         style={{
           ...styles.widgetChatWidgetContainer,
@@ -293,7 +292,7 @@ export default function WalletChatWidget({
         }}
       >
       {Platform.OS === 'web' && isOpen && (
-        <Portal>
+        <Modal>
           <iframe
             title='WalletChat'
             name='WalletChat'
@@ -305,7 +304,7 @@ export default function WalletChatWidget({
               ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
             }}
           />
-        </Portal>
+        </Modal>
       )}
 
         {/* {Platform.OS !== 'web' && isOpen && (
@@ -327,7 +326,6 @@ export default function WalletChatWidget({
           clickHandler={clickHandler}
         />
       </View>
-    </PaperProvider>
   );
 }
 
@@ -355,10 +353,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   widgetIsOpen: {
-    height: '100%',
-    width: '100%',
-    minHeight: '100%',
-    minWidth: '100%',
+    height: '50%',
+    width: '50%',
+    // minHeight: '100%',
+    // minWidth: '100%',
     zIndex: 1001,
     transform: [{ translateX: -4 }, { translateY: -2 }],
   },
