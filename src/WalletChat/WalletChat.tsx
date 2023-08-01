@@ -11,7 +11,7 @@ import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
 import { ethers } from 'ethers';
-import { Portal } from "react-native-paper"
+import { PaperProvider, Portal } from "react-native-paper"
 // import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
@@ -285,47 +285,49 @@ export default function WalletChatWidget({
   }, [doSignIn]);
 
   return (
-    <View
-      style={{
-        ...styles.widgetChatWidgetContainer,
-        ...(isOpen && styles.widgetChatWidgetContainerOpen),
-      }}
-    >
-    {Platform.OS === 'web' && isOpen && (
-      <Portal>
-        <iframe
-          title='WalletChat'
-          name='WalletChat'
-          id={iframeId}
-          src={url}
-          //@ts-ignore
-          style={{
-            ...styles.widgetChatWidget,
-            ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
-          }}
+    <PaperProvider>
+      <View
+        style={{
+          ...styles.widgetChatWidgetContainer,
+          ...(isOpen && styles.widgetChatWidgetContainerOpen),
+        }}
+      >
+      {Platform.OS === 'web' && isOpen && (
+        <Portal>
+          <iframe
+            title='WalletChat'
+            name='WalletChat'
+            id={iframeId}
+            src={url}
+            //@ts-ignore
+            style={{
+              ...styles.widgetChatWidget,
+              ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+            }}
+          />
+        </Portal>
+      )}
+
+        {/* {Platform.OS !== 'web' && isOpen && (
+          <WebView
+            id={iframeId}
+            source={{ uri: url }}
+            style={[
+              styles.widgetChatWidget,
+              isOpen && styles.widgetIsOpen,
+              !isOpen && styles.widgetIsClosed,
+            ]}
+          />
+        )} */}
+
+        <ButtonOverlay
+          notiVal={numUnread}
+          showNoti={numUnread > 0}
+          isOpen={isOpen}
+          clickHandler={clickHandler}
         />
-      </Portal>
-    )}
-
-    {/* {Platform.OS !== 'web' && isOpen && (
-      <WebView
-        id={iframeId}
-        source={{ uri: url }}
-        style={[
-          styles.widgetChatWidget,
-          isOpen && styles.widgetIsOpen,
-          !isOpen && styles.widgetIsClosed,
-        ]}
-      />
-    )} */}
-
-    <ButtonOverlay
-      notiVal={numUnread}
-      showNoti={numUnread > 0}
-      isOpen={isOpen}
-      clickHandler={clickHandler}
-    />
-  </View>
+      </View>
+    </PaperProvider>
   );
 }
 
