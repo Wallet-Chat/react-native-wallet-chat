@@ -309,7 +309,7 @@ export default function WalletChatWidget({
                 ...styles.widgetChatWidget,
                 ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
               }}
-              height={200}
+              height={550}
             />
           </View>
         </Modal>
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    width: '30%', // Set your desired width here
+    width: '28%',
     borderRadius: 16,
     marginTop: "5%",
     alignSelf: "center",
