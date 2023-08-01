@@ -309,6 +309,7 @@ export default function WalletChatWidget({
                 ...styles.widgetChatWidget,
                 ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
               }}
+              height={200}
             />
           </View>
         </Modal>
@@ -362,8 +363,6 @@ const styles = StyleSheet.create({
   widgetIsOpen: {
     height: '50%',
     width: '50%',
-    // minHeight: '100%',
-    // minWidth: '100%',
     zIndex: 1001,
     transform: [{ translateX: -4 }, { translateY: -2 }],
   },
@@ -376,12 +375,14 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
+    alignSelf: 'center',
     alignItems: 'center',
   },
   modalContent: {
-    height: '50%', // Set your desired height here
-    width: '50%', // Set your desired width here
+    width: '30%', // Set your desired width here
     borderRadius: 16,
+    marginTop: "5%",
+    alignSelf: "center",
     overflow: 'hidden',
   },
 });
