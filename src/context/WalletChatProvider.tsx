@@ -4,7 +4,6 @@ import {
   type WidgetState,
   type WidgetStateSetter,
 } from './WalletChatContext';
-import { PaperProvider } from "react-native-paper"
 
 export function WalletChatProvider({
   children,
