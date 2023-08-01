@@ -30,10 +30,8 @@ export function WalletChatProvider({
   );
 
   return (
-      <PaperProvider>
-        <WalletChatContext.Provider value={providerValue}>
-            {children}
-        </WalletChatContext.Provider>
-      </PaperProvider>
+      <WalletChatContext.Provider value={providerValue}>
+          {children}
+      </WalletChatContext.Provider>
   );
 }
