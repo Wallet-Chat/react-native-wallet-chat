@@ -1,5 +1,6 @@
 import React from 'react'
 import { WalletChatContext } from '../context'
+import { Text } from 'react-native'
 
 const ButtonWrapper = ({
   onClick,
@@ -45,17 +46,21 @@ const ChatWithOwner = ({
         })
       }
     >
-      <div
-        style={{
-          backgroundImage:
-            'url(https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png)',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          width: '25px',
-          height: '25px',
-        }}
-      />
-      Chat with owner
+      {!render && (
+        <>
+          <div
+            style={{
+              backgroundImage:
+                'url(https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png)',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              width: '25px',
+              height: '25px',
+            }}
+          />
+          <Text>Chat With Owner</Text>
+        </>
+      )}
     </WrapperEl>
   )
 }
