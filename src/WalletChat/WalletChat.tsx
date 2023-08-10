@@ -10,9 +10,8 @@ import type {
 import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
-//import { ethers } from 'ethers';
-// import { PaperProvider} from "react-native-paper"
-// import WebView from 'react-native-webview';
+import { ethers } from 'ethers';
+import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
 let URL = 'https://gooddollar.walletchat.fun';
@@ -313,17 +312,16 @@ export default function WalletChatWidget({
         </Modal>
       )}
 
-        {/* {Platform.OS !== 'web' && isOpen && (
+        {Platform.OS !== 'web' && isOpen && (
           <WebView
             id={iframeId}
             source={{ uri: url }}
-            style={[
-              styles.widgetChatWidget,
-              isOpen && styles.widgetIsOpen,
-              !isOpen && styles.widgetIsClosed,
-            ]}
+            style={{
+              ...styles.widgetChatWidget,
+              ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+            }}
           />
-        )} */}
+        )}
 
         <ButtonOverlay
           notiVal={numUnread}
