@@ -10,7 +10,7 @@ import type {
 import { WalletChatContext } from '../context';
 import { randomStringForEntropy } from '@stablelib/random';
 import { parseNftFromUrl } from '../utils';
-import { ethers } from 'ethers';
+//import { ethers } from 'ethers';
 import WebView from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 
@@ -73,11 +73,8 @@ export default function WalletChatWidget({
   }
 
   async function signMessagePrompt() {
-    const ethersProvider = new ethers.providers.Web3Provider(
-      connectedWallet?.provider
-    );
-    const signer = await ethersProvider.getSigner();
-    console.log('signMessagePrompt: ', connectedWallet, signer);
+    const signer = await connectedWallet?.provider.getSigner();
+    console.log("signMessagePrompt (connectedWallet, signer, provider): ", connectedWallet, signer, connectedWallet?.provider);
 
     const domain = window.location.host;
     const origin = window.location.protocol + '//' + domain;
@@ -102,9 +99,9 @@ export default function WalletChatWidget({
     }
     const messagePlainText = [prefix, suffix].join('\n');
 
-    signer
+    await signer
       .signMessage(messagePlainText)
-      .then((signature) => {
+      .then((signature: any) => {
         let localMsgData: SignedMessageData;
         localMsgData = {
           msgToSign: messagePlainText,
@@ -117,7 +114,7 @@ export default function WalletChatWidget({
         setSignedMessageDataLocal(localMsgData);
         console.log('Signature Set, localMsgData: ', localMsgData);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error('🚨[Signature]:', error);
       });
   }

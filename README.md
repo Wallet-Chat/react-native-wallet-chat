@@ -13,7 +13,7 @@ npm install react-native-wallet-chat
 Add in your App.js 
 
 ```js
-import WalletChatProvider from 'react-native-wallet-chat';
+import { WalletChatProvider } from 'react-native-wallet-chat';
 
 // ...
 
@@ -23,10 +23,10 @@ export const App = () => {
   )
 }
 ```
-Add in any component
+Use the chat widget in any component
 
 ```js
-import WalletChatWidget from 'react-native-wallet-chat';
+import { WalletChatWidget } from 'react-native-wallet-chat';
 
 // ...
 export const DashBoard = () => {
@@ -46,6 +46,32 @@ export const DashBoard = () => {
   )
 }
 ```
+Use chat with owner in any component
+
+```js
+import { ChatWithOwner } from 'react-native-wallet-chat';
+
+// ...
+export const DashBoard = () => {
+  return (
+        <ChatWithOwner
+          ownerAddress={address}
+          render={
+            <Icon
+              style={{
+                marginRight: 10,
+                marginTop: 5
+              }}
+              name="whatsapp-1"
+              size={25}
+              color="gray"
+            />
+          }
+      />
+  )
+}
+```
+
 ## PS:
 
 Package still under active development
