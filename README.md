@@ -46,9 +46,6 @@ export const DashBoard = () => {
   )
 }
 ```
-
-
-```
 Use chat with owner in any component
 
 ```js
