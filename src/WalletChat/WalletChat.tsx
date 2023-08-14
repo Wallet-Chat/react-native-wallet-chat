@@ -305,8 +305,8 @@ export default function WalletChatWidget({
                 ...styles.widgetChatWidget,
                 ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
               }}
-              height={550}
-              width={430}
+              height={560}
+              width={445}
             />
           </View>
         </Modal>
@@ -357,8 +357,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   widgetIsOpen: {
-    height: '50%',
-    width: '50%',
     zIndex: 1001,
     transform: [{ translateX: -4 }, { translateY: -2 }],
   },
