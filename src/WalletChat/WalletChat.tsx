@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet, Modal } from 'react-native';
+import { Platform, View, StyleSheet, Modal, Dimensions } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -43,6 +43,9 @@ export default function WalletChatWidget({
   >(null);
   const connectedWalletRef = React.useRef(connectedWallet);
   const didSendOrigin = React.useRef(0);
+
+  const screenWidth = Dimensions.get('window').width;
+  const iframeWidth = Math.min(screenWidth - 12, 445); // Max width of 445
 
   // this is used for receive message effect without triggering the effect
   const widgetOpen = React.useRef(false);
@@ -304,6 +307,8 @@ export default function WalletChatWidget({
               style={{
                 ...styles.widgetChatWidget,
                 ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+                width: iframeWidth,
+                height: "100%"
               }}
               height={560}
               width={445}
@@ -357,7 +362,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   widgetIsOpen: {
-    zIndex: 1001,
     transform: [{ translateX: -4 }, { translateY: -2 }],
   },
   widgetIsClosed: {
@@ -372,7 +376,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    top: "10%",
+    top: "8%",
+    height: "83%",
     borderRadius: 16,
     alignSelf: "center",
     overflow: 'hidden',
