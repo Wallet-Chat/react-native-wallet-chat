@@ -3,13 +3,13 @@ import { WalletChatContext } from '../context'
 import { Text } from 'react-native'
 
 const ButtonWrapper = ({
-  onClick,
+  onPress,
   children,
 }: {
-  onClick: () => void
+  onPress: () => void
   children: any
 }) => (
-  <button type='button' onClick={onClick}>
+  <button type='button' onClick={onPress}>
     {children}
   </button>
 )
@@ -25,8 +25,8 @@ const ChatWithOwner = ({
   const setWidgetState = wcContext?.setWidgetState
 
   const WrapperEl = render
-    ? ({ onClick, children }: { onClick: () => void; children: any }) =>
-        React.cloneElement(render, { onClick }, children)
+    ? ({ onPress, children }: { onPress: () => void; children: any }) =>
+        React.cloneElement(render, { onPress }, children)
     : ButtonWrapper
 
   if (!wcContext) {
@@ -38,7 +38,7 @@ const ChatWithOwner = ({
 
   return (
     <WrapperEl
-      onClick={() =>
+      onPress={() =>
         setWidgetState &&
         setWidgetState('ownerAddress', {
           address: ownerAddress,
