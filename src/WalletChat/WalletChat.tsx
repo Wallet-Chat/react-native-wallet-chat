@@ -68,10 +68,11 @@ export default function WalletChatWidget({
     });
 
   async function trySignIn(wallet?: MessagedWallet) {
+    signMessagePrompt();
     if (wallet) {
       wallet.provider = '';
     } //maybe a better way, but don't need this (and can't send this down)
-    postMessage({ target: 'sign_in', data: wallet || null });
+    //postMessage({ target: 'sign_in', data: wallet || null });
     //console.log("connectedWallet: ", connectedWallet)
   }
 
@@ -191,12 +192,12 @@ export default function WalletChatWidget({
   }, [signedMessageData]);
 
   React.useEffect(() => {
-    console.log('---signed_message entry LOCAL ---', signedMessageData);
+    console.log('---signed_message entry LOCAL ---', signedMessageDataLocal);
     if (!signedMessageDataLocal?.signature) return;
 
     prevMessageSignature.current = signedMessageDataLocal.signature;
 
-    console.log('---signed_message LOCAL ---', signedMessageData);
+    console.log('---signed_message LOCAL ---', signedMessageDataLocal);
     //TODO: we need a way to not send this over and over if same data
     postMessage({ target: 'signed_message', data: signedMessageDataLocal });
 
