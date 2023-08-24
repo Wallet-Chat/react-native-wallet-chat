@@ -124,9 +124,15 @@ export default function WalletChatWidget({
   }
 
   const clickHandler = () => {
+    if(setWidgetState){
+      setWidgetState('ownerAddress', {
+        address: undefined,
+        lastRequest: Date.now().toString(),
+      })
+    }
     setIsOpen((prev) => {
       const wasOpen = Boolean(prev);
-
+      
       if (nftInfoForContract.current && !wasOpen) {
         postMessage({
           target: 'nft_info',
