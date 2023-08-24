@@ -151,6 +151,8 @@ export default function WalletChatWidget({
   }, [doSignIn]);
 
   React.useEffect(() => {
+    console.log('ownerAddress changed: ', ownerAddress);
+
     if (!ownerAddress?.address) return;
     const address = ownerAddress.address;
 
@@ -169,6 +171,7 @@ export default function WalletChatWidget({
         data: { ...nftInfoForContract.current, redirect: true },
       });
     } else {
+      console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
       // otherwise send to regular DM page
       postMessage({ target: 'nft_info', data: { ownerAddress: address } });
     }
@@ -270,6 +273,11 @@ export default function WalletChatWidget({
 
       if (data.target === 'do_parent_sign_in') {
         signMessagePrompt();
+      }
+
+      if (data.target === 'goodwallet_is_awake'){
+        console.log("got message : goodwallet_is_awake")
+        postMessage({ target: 'nft_info', data: { ownerAddress: ownerAddress?.address } });
       }
 
       if (data.target === 'is_signed_in' && !data.data) {

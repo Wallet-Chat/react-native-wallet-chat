@@ -37,4 +37,5 @@ export type AppAPI =
   | { target: 'close_widget'; data: null }
   | { target: 'is_signed_in'; data: boolean }
   | { target: 'url_env'; data: string }
+  | { target: 'goodwallet_is_awake'; data: string }
   | { target: 'do_parent_sign_in'; data: string };
