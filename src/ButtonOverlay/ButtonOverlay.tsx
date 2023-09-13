@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
 import { Text } from 'react-native';
-import WalletChatIcon from '../../icons/WC_round.svg';
+import { WalletChatIcon } from 'icons';
 
 function getClickedNfts() {
   try {
