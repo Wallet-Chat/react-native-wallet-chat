@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
 import { Text } from 'react-native';
+import WalletChatIcon from '../../icons/WC_round.svg';
 
 function getClickedNfts() {
   try {
@@ -105,13 +106,7 @@ export function ButtonOverlay({
             !isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
         >
-          <Image
-            style={styles.popupButton}
-            alt="WalletChat"
-            source={{
-              uri: 'https://uploads-ssl.webflow.com/62d761bae8bf2da003f57b06/62d761bae8bf2dea68f57b52_walletchat%20logo.png',
-            }}
-          />
+          <WalletChatIcon style={styles.popupButton} />
         </View>
         <View
           style={[
