@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
     height: 40, // You can adjust this value as needed
     borderRadius: 20, // half of width and height to make it round
     overflow: 'hidden',
-    backgroundColor: '#000',
   },
   icon: {
     flex: 1,
