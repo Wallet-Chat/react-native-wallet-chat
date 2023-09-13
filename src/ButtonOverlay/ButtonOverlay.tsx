@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
 import { Text } from 'react-native';
 import WalletChatIcon from '../../icons/WC_round.svg';
