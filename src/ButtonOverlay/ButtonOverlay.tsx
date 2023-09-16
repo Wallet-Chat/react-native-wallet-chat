@@ -1,7 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Image, StyleSheet, Text, Animated } from 'react-native';
 import { WalletChatContext } from '../context';
-import { Text } from 'react-native';
 
 function getClickedNfts() {
   try {
@@ -41,7 +40,6 @@ export function ButtonOverlay({
   clickHandler: (e: any) => void;
 }) {
   const clickedNfts = getClickedNfts();
-
   const widgetContext = React.useContext(WalletChatContext);
   const widgetState = widgetContext?.widgetState;
   const foundNft = widgetState?.foundNft;
@@ -51,21 +49,59 @@ export function ButtonOverlay({
     (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
 
   const [isRinging, setIsRinging] = React.useState(shouldRing);
+  const pingAnimation = new Animated.Value(0);
 
   React.useEffect(() => {
     setIsRinging(shouldRing);
 
     if (shouldRing) {
       // Start the animation when isRinging becomes true
-      const animationInterval = setInterval(() => {
-        setIsRinging((prev) => !prev); // Toggle the isRinging state to create the animation effect
-      }, 1000);
+      const animationInterval = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pingAnimation, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: false,
+          }),
+          Animated.timing(pingAnimation, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: false,
+          }),
+        ])
+      );
+
+      animationInterval.start();
 
       return () => {
-        clearInterval(animationInterval); // Clean up the interval when the component unmounts
+        animationInterval.stop(); // Clean up the interval when the component unmounts
       };
     }
   }, [shouldRing]);
+
+  // Define the ping style with animated values
+  const pingStyle = {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    width: 24,
+    height: 24,
+    left: 40,
+    backgroundColor: '#f56565',
+    borderRadius: 12,
+    transform: [
+      {
+        scale: pingAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 1.2],
+        }),
+      },
+    ],
+    opacity: pingAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 0.75],
+    }),
+  };
 
   return (
     <View
@@ -74,21 +110,7 @@ export function ButtonOverlay({
         isOpen && styles.popupButton__containerOpen,
       ]}
     >
-       {isRinging && (
-        <View
-          style={[
-            styles.ring,
-            {
-              opacity: isRinging ? 0.75 : 0,
-              transform: [
-                {
-                  scale: isRinging ? 1.2 : 1,
-                },
-              ],
-            },
-          ]}
-        />
-      )}
+      {isRinging && <Animated.View style={[styles.ring, pingStyle]} />}
 
       <TouchableOpacity
         onPress={(e: any) => {
@@ -107,7 +129,6 @@ export function ButtonOverlay({
         >
           <Image
             style={styles.popupButton}
-            alt="WalletChat"
             source={{
               uri: 'https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.svg',
             }}
@@ -119,6 +140,7 @@ export function ButtonOverlay({
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
         >
+          {/* Replace the following SVG with your actual SVG */}
           <svg
             focusable='false'
             viewBox='0 0 16 14'
@@ -228,3 +250,5 @@ const styles = StyleSheet.create({
     lineHeight: 12,
   },
 });
+
+export default ButtonOverlay;

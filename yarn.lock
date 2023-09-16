@@ -8521,10 +8521,10 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
-react-native-webview@^13.2.2:
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.2.2.tgz#06b04db8e1f4ed57a9dc92f4094aa0e41271b89b"
-  integrity sha512-uT70y2GUqQzaj2RwRb/QuKRdXeDjXM6oN3DdPqYQlOOMFTCT8r62fybyjVVRoik8io+KLa5KnmuSoS5B2O1BmA==
+react-native-webview@12.0.2:
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-12.0.2.tgz#6f75bc74f75a7585fb06743ffc20c267048512df"
+  integrity sha512-vEnFOgVIYaUAQb437BOZdwTteUv3dkXkYOajalUkMDHNz91Zb35HaG6L49uUSFp4qYw46y/U3licKS1BOISDrg==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
