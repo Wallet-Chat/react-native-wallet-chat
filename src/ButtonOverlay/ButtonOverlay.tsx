@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
     left: 40,
     backgroundColor: '#f56565',
     borderRadius: 12,
-    animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
   },
   notif: {
     position: 'absolute',
