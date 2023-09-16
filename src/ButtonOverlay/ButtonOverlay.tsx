@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Image, StyleSheet, Text, Animated } from 'react-native';
+import { TouchableOpacity, View, Image, StyleSheet, Text, Animated, type ViewStyle } from 'react-native';
 import { WalletChatContext } from '../context';
 
 function getClickedNfts() {
@@ -80,28 +80,29 @@ export function ButtonOverlay({
   }, [shouldRing]);
 
   // Define the ping style with animated values
-  const pingStyle = {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    width: 24,
-    height: 24,
-    left: 40,
-    backgroundColor: '#f56565',
-    borderRadius: 12,
-    transform: [
-      {
-        scale: pingAnimation.interpolate({
-          inputRange: [0, 1],
-          outputRange: [1, 1.2],
-        }),
-      },
-    ],
-    opacity: pingAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 0.75],
-    }),
-  };
+  // Define the ping style with animated values
+const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
+  position: 'absolute', // Make sure 'position' is set to 'absolute'
+  top: -8,
+  right: -8,
+  width: 24,
+  height: 24,
+  left: 40,
+  backgroundColor: '#f56565',
+  borderRadius: 12,
+  transform: [
+    {
+      scale: pingAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 1.2],
+      }),
+    },
+  ],
+  opacity: pingAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 0.75],
+  }),
+};
 
   return (
     <View
