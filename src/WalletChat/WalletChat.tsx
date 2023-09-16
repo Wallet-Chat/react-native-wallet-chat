@@ -360,7 +360,6 @@ const styles = StyleSheet.create({
     bottom: 2,
     right: 6,
     zIndex: 1000,
-    userSelect: 'none',
     // Android-specific shadow
     elevation: 4,
     // iOS-specific shadow
