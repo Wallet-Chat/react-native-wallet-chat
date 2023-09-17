@@ -142,7 +142,7 @@ const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
         >
-          <Svg width={28} height={25} viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
+          <Svg width={28} height={25} viewBox="0 0 16 14">
             <Path
               fillRule="evenodd"
               clipRule="evenodd"
