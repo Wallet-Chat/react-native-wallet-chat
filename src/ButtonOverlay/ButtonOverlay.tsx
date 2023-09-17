@@ -140,21 +140,7 @@ const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
             styles.icon,
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
-        >
-          <svg
-            focusable='false'
-            viewBox='0 0 16 14'
-            width='28'
-            height='25'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              fillRule='evenodd'
-              clipRule='evenodd'
-              d='M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z'
-            />
-          </svg>
-        </View>
+        />
       </TouchableOpacity>
 
       {showNoti && (
