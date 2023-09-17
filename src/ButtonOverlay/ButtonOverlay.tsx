@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Image, StyleSheet, Text, Animated, type ViewStyle } from 'react-native';
 import { WalletChatContext } from '../context';
-import { Svg, Path } from 'react-native-svg';
 
 function getClickedNfts() {
   try {
@@ -142,14 +141,19 @@ const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
         >
-          <Svg width={28} height={25} viewBox="0 0 16 14">
-            <Path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z"
-              fill="#000" // Set the desired fill color here
+          <svg
+            focusable='false'
+            viewBox='0 0 16 14'
+            width='28'
+            height='25'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              fillRule='evenodd'
+              clipRule='evenodd'
+              d='M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z'
             />
-        </Svg>
+          </svg>
         </View>
       </TouchableOpacity>
 
