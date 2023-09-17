@@ -335,7 +335,7 @@ export default function WalletChatWidget({
         {Platform.OS !== 'web' && isOpen && (
           <WebView
             id={iframeId}
-            name="walletChatWebView"
+            name="WalletChatWebView"
             source={{ uri: url }}
             style={{
               ...styles.widgetChatWidget,
