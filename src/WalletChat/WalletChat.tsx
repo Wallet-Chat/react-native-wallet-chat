@@ -215,30 +215,42 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedMessageDataLocal]);
 
+  const sendContractInfo = () => {
+    if (window.location.href === previousUrlSent.current) return;
+
+    previousUrlSent.current = window.location.href;
+
+    const nftInfo = parseNftFromUrl(window.location.href);
+
+    if (setWidgetState) setWidgetState('foundNft', JSON.stringify(nftInfo));
+
+    if (nftInfo.network) {
+      nftInfoForContract.current = nftInfo;
+    }
+
+    postMessage({ target: 'nft_info', data: nftInfo });
+  };
+
+  const handleNavigationStateChange = (navState: any) => {
+    // Check if the URL has changed
+    if (navState.url !== url) {
+      setUrl(navState.url);
+
+      // Trigger your logic here when the URL changes
+      sendContractInfo();
+    }
+  };
+
   React.useEffect(() => {
-    const sendContractInfo = () => {
-      if (window.location.href === previousUrlSent.current) return;
-
-      previousUrlSent.current = window.location.href;
-
-      const nftInfo = parseNftFromUrl(window.location.href);
-
-      if (setWidgetState) setWidgetState('foundNft', JSON.stringify(nftInfo));
-
-      if (nftInfo.network) {
-        nftInfoForContract.current = nftInfo;
-      }
-
-      postMessage({ target: 'nft_info', data: nftInfo });
-    };
-
-    const observer = new MutationObserver(sendContractInfo);
-    const config = { subtree: true, childList: true };
-
-    sendContractInfo();
-
-    observer.observe(document, config);
-    return () => observer.disconnect();
+    if(Platform.OS === "web") {
+      const observer = new MutationObserver(sendContractInfo);
+      const config = { subtree: true, childList: true };
+  
+      sendContractInfo();
+  
+      observer.observe(document, config);
+      return () => observer.disconnect();
+    }
   }, [setWidgetState]);
 
   React.useEffect(() => {
@@ -336,6 +348,7 @@ export default function WalletChatWidget({
           <WebView
             id={iframeId}
             name="WalletChatWebView"
+            onNavigationStateChange={handleNavigationStateChange}
             source={{ uri: url }}
             style={{
               ...styles.widgetChatWidget,
