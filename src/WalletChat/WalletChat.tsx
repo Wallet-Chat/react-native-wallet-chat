@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet, Modal, Dimensions } from 'react-native';
+import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -304,9 +304,15 @@ export default function WalletChatWidget({
       }
     };
 
-    window.addEventListener('message', handleMsg);
+    if(Platform.OS === "web"){
+      window.addEventListener('message', handleMsg);
+  
+      return () => window.removeEventListener('message', handleMsg);
+    } else {
+      const eventListener = DeviceEventEmitter.addListener('message', handleMsg);
 
-    return () => window.removeEventListener('message', handleMsg);
+      return () => eventListener.remove();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
