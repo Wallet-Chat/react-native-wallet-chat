@@ -37,7 +37,7 @@ export default function WalletChatWidget({
 }) {
   const [url, setUrl] = React.useState(URL);
 
-  const previousUrlSent = React.useRef('');
+  //const previousUrlSent = React.useRef('');
   const nftInfoForContract = React.useRef<
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
   >(null);
@@ -80,8 +80,10 @@ export default function WalletChatWidget({
     const signer = await connectedWallet?.provider.getSigner();
     console.log("signMessagePrompt (connectedWallet, signer, provider): ", connectedWallet, signer, connectedWallet?.provider);
 
-    const domain = window.location.host;
-    const origin = window.location.protocol + '//' + domain;
+    // const domain = window.location.host;
+    // const origin = window.location.protocol + '//' + domain;
+    const domain = "gooddollar.walletchat.fun"
+    const origin = "https://gooddollar.walletchat.fun"
     const statement =
       'You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.';
 
@@ -162,7 +164,7 @@ export default function WalletChatWidget({
     if (!ownerAddress?.address) return;
     const address = ownerAddress.address;
 
-    const nftInfo = parseNftFromUrl(window.location.href);
+    const nftInfo = parseNftFromUrl("gooddollar.walletchat.fun");
     if (nftInfo.network) {
       nftInfoForContract.current = {
         ...nftInfo,
@@ -216,11 +218,10 @@ export default function WalletChatWidget({
   }, [signedMessageDataLocal]);
 
   const sendContractInfo = () => {
-    if (window.location.href === previousUrlSent.current) return;
+    // if (window.location.href === previousUrlSent.current) return;
+    // previousUrlSent.current = window.location.href;
 
-    previousUrlSent.current = window.location.href;
-
-    const nftInfo = parseNftFromUrl(window.location.href);
+    const nftInfo = parseNftFromUrl("gooddollar.walletchat.fun");
 
     if (setWidgetState) setWidgetState('foundNft', JSON.stringify(nftInfo));
 
@@ -265,8 +266,8 @@ export default function WalletChatWidget({
         postMessage({
           target: 'origin',
           data: {
-            domain: window.location.host,
-            origin: window.location.protocol + window.location.host,
+            domain: "gooddollar.walletchat.fun",
+            origin: "https://gooddollar.walletchat.fun",
           },
         });
         didSendOrigin.current++;
