@@ -1,4 +1,9 @@
 export function parseNftFromUrl(url: string) {
+
+  if(!url) {
+    return { contractAddress: null, itemId: null, network: null }
+  }
+
   const urlWithoutProtocol = url.replace('https://', '').replace('http://', '');
   const parts = urlWithoutProtocol.split('/');
   const length = parts.length;
