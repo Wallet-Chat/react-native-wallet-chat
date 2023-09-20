@@ -107,9 +107,8 @@ export function ButtonOverlay({
         >
           <Image
             style={styles.popupButton}
-            alt="WalletChat"
             source={{
-              uri: 'https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.svg',
+              uri: 'https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.png',
             }}
           />
         </View>
