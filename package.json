@@ -1,6 +1,6 @@
 {
   "name": "react-native-wallet-chat-test",
-  "version": "0.1.73",
+  "version": "0.1.74",
   "description": "Wallet Chat React Native Component Library",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -167,6 +167,7 @@
     "jsSrcsDir": "src"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.19.3",
     "@stablelib/random": "^1.0.2",
     "classnames": "^2.3.2",
     "ethers": "5.7.2",

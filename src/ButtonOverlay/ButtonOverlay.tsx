@@ -1,32 +1,33 @@
-import React from 'react';
-import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { WalletChatContext } from '../context';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity, Image, View, StyleSheet } from 'react-native';
 import { Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function getClickedNfts() {
+async function getClickedNfts() {
   try {
-    const clickedNfts =
-      (typeof localStorage !== 'undefined' &&
-        localStorage.getItem('clickedNfts')) ||
-      '';
-
+    const clickedNfts = await AsyncStorage.getItem('clickedNfts');
     return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : [];
-  } catch (error: any) {
+  } catch (error) {
     return [];
   }
 }
 
-function setClickedNfts(foundNft: string) {
+async function setClickedNfts(foundNft: any) {
   try {
-    const clickedNfts = getClickedNfts();
+    const clickedNfts = await getClickedNfts();
     const newClickedNfts = [...clickedNfts, foundNft];
-
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts));
-    }
-  } catch (error: any) {
+    await AsyncStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts));
+  } catch (error) {
     return null;
   }
+}
+
+export interface ButtonOverlayProps {
+  notiVal: number;
+  showNoti: boolean;
+  isOpen: boolean;
+  clickHandler: () => void;
 }
 
 export function ButtonOverlay({
@@ -34,38 +35,47 @@ export function ButtonOverlay({
   showNoti,
   isOpen,
   clickHandler,
-}: {
-  notiVal: number;
-  showNoti: boolean;
-  isOpen: boolean;
-  clickHandler: (e: any) => void;
-}) {
-  const clickedNfts = getClickedNfts();
-
+}: ButtonOverlayProps) {
+  const [isRinging, setIsRinging] = useState(false);
   const widgetContext = React.useContext(WalletChatContext);
-  const widgetState = widgetContext?.widgetState;
-  const foundNft = widgetState?.foundNft;
-  const foundNftId = foundNft && JSON.parse(foundNft).itemId;
-  const shouldRing =
-    !isOpen &&
-    (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
 
-  const [isRinging, setIsRinging] = React.useState(shouldRing);
+  useEffect(() => {
+    async function fetchData() {
+      const clickedNfts = await getClickedNfts();
+      const widgetState = widgetContext?.widgetState;
+      const foundNft = widgetState?.foundNft;
+      const foundNftId = foundNft && JSON.parse(foundNft).itemId;
+      const shouldRing =
+        !isOpen &&
+        (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
 
-  React.useEffect(() => {
-    setIsRinging(shouldRing);
+      setIsRinging(shouldRing);
 
-    if (shouldRing) {
-      // Start the animation when isRinging becomes true
-      const animationInterval = setInterval(() => {
-        setIsRinging((prev) => !prev); // Toggle the isRinging state to create the animation effect
-      }, 1000);
+      if (shouldRing) {
+        const animationInterval = setInterval(() => {
+          setIsRinging((prev) => !prev);
+        }, 1000);
 
-      return () => {
-        clearInterval(animationInterval); // Clean up the interval when the component unmounts
-      };
+        return () => {
+          clearInterval(animationInterval);
+        };
+      }
     }
-  }, [shouldRing]);
+
+    fetchData();
+  }, [isOpen]);
+
+  const handlePress = async () => {
+    setIsRinging(false);
+    const widgetState = widgetContext?.widgetState;
+    const foundNft = widgetState?.foundNft;
+
+    if (foundNft) {
+      await setClickedNfts(foundNft);
+    }
+
+    clickHandler();
+  };
 
   return (
     <View
@@ -74,7 +84,7 @@ export function ButtonOverlay({
         isOpen && styles.popupButton__containerOpen,
       ]}
     >
-       {isRinging && (
+      {isRinging && (
         <View
           style={[
             styles.ring,
@@ -90,15 +100,7 @@ export function ButtonOverlay({
         />
       )}
 
-      <TouchableOpacity
-        onPress={(e: any) => {
-          setIsRinging(false);
-          if (foundNft) {
-            setClickedNfts(foundNft);
-          }
-          clickHandler(e);
-        }}
-      >
+      <TouchableOpacity onPress={handlePress}>
         <View
           style={[
             styles.icon,
@@ -118,19 +120,7 @@ export function ButtonOverlay({
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
         >
-          <svg
-            focusable='false'
-            viewBox='0 0 16 14'
-            width='28'
-            height='25'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              fillRule='evenodd'
-              clipRule='evenodd'
-              d='M.116 4.884l1.768-1.768L8 9.232l6.116-6.116 1.768 1.768L8 12.768.116 4.884z'
-            />
-          </svg>
+          {/* SVG component here */}
         </View>
       </TouchableOpacity>
 
@@ -206,7 +196,7 @@ const styles = StyleSheet.create({
     left: 40,
     backgroundColor: '#f56565',
     borderRadius: 12,
-    animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+    // Implement animation logic here
   },
   notif: {
     position: 'absolute',
