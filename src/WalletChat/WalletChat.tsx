@@ -379,7 +379,6 @@ const styles = StyleSheet.create({
     bottom: 2,
     right: 6,
     zIndex: 1000,
-    pointerEvents: 'none', // This will disable user interaction with the element
     // Android-specific shadow
     elevation: 4,
     // iOS-specific shadow
