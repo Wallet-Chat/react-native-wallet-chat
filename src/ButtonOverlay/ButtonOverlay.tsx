@@ -121,26 +121,30 @@ const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
           }
           clickHandler(e);
         }}
+        style={[
+          styles.icon,
+          !isOpen ? styles.activeIcon : styles.inactiveIcon,
+        ]}
       >
-        <View
+        {/* <View
           style={[
             styles.icon,
             !isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
-        >
+        > */}
           <Image
             style={styles.popupButton}
             source={{
-              uri: 'https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.svg',
+              uri: 'https://walletchat-pfp-storage.sgp1.digitaloceanspaces.com/wc_logo.png',
             }}
           />
-        </View>
-        <View
+        {/* </View> */}
+        {/* <View
           style={[
             styles.icon,
             isOpen ? styles.activeIcon : styles.inactiveIcon,
           ]}
-        />
+        /> */}
       </TouchableOpacity>
 
       {showNoti && (
@@ -185,6 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    marginTop: 20,
     marginLeft: 60,
   },
   inactiveIcon: {

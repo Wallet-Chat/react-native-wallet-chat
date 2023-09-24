@@ -126,6 +126,7 @@ export default function WalletChatWidget({
   }
 
   const clickHandler = () => {
+    console.warn("i was clicked");
     if(setWidgetState){
       setWidgetState('ownerAddress', {
         address: undefined,
