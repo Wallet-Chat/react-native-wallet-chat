@@ -127,7 +127,6 @@ export default function WalletChatWidget({
   }
 
   const clickHandler = () => {
-    console.warn("i was clicked");
     if(setWidgetState){
       setWidgetState('ownerAddress', {
         address: undefined,
@@ -353,18 +352,29 @@ export default function WalletChatWidget({
         </Modal>
       )}
 
-        {Platform.OS !== 'web' && isOpen && (
-          <WebView
-            id={iframeId}
-            name="WalletChatWebView"
-            onNavigationStateChange={handleNavigationStateChange}
-            source={{ uri: url }}
-            style={{
-              ...styles.widgetChatWidget,
-              ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
-            }}
-          />
-        )}
+      {isOpen && (
+        <Modal
+          visible={isOpen}
+          transparent={true}
+          animationType='slide'
+          style={styles.modalContainer}
+        >
+          <View style={styles.modalContent}>
+            <WebView
+              source={{ uri: url }}
+              id={iframeId}
+              name="WalletChatWebView"
+              onNavigationStateChange={handleNavigationStateChange}
+              style={{
+                ...styles.widgetChatWidget,
+                ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
+                width: iframeWidth,
+                height: '100%',
+              }}
+            />
+          </View>
+        </Modal>
+      )}
 
       <TouchableOpacity style={{alignItems: "center", marginTop: 20, left: 15, top: 3,  borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => console.warn("from the package")} >
         <ButtonOverlay
