@@ -13,6 +13,7 @@ import { parseNftFromUrl } from '../utils';
 //import { ethers } from 'ethers';
 import { WebView } from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
+import { TouchableOpacity } from 'react-native';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
@@ -365,12 +366,14 @@ export default function WalletChatWidget({
           />
         )}
 
+      <TouchableOpacity style={{alignItems: "center", marginTop: 20, left: 15, top: 3,  borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => console.warn("from the package")} >
         <ButtonOverlay
           notiVal={numUnread}
           showNoti={numUnread > 0}
           isOpen={isOpen}
           clickHandler={clickHandler}
         />
+      </TouchableOpacity>
       </View>
   );
 }
