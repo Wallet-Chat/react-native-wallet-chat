@@ -20,11 +20,16 @@ let URL = 'https://gooddollar.walletchat.fun';
 const iframeId = 'wallet-chat-widget'
 
 function postMessage(data: API) {
-  if (typeof document === 'undefined') return;
+  if(Platform.OS === "web"){
+    if (typeof document === 'undefined') return;
 
-  const iframeElement = document?.getElementById(iframeId) as HTMLIFrameElement;
+    const iframeElement = document?.getElementById(iframeId) as HTMLIFrameElement;
 
-  iframeElement?.contentWindow?.postMessage(data, '*');
+    iframeElement?.contentWindow?.postMessage(data, '*');
+  } else {
+    //send postMessage to WebView url (react-native)
+    //handled case by case
+  }
 }
 
 export default function WalletChatWidget({
@@ -44,6 +49,7 @@ export default function WalletChatWidget({
   >(null);
   const connectedWalletRef = React.useRef(connectedWallet);
   const didSendOrigin = React.useRef(0);
+  const webViewRef = React.useRef<WebView | null>(null);
 
   const screenWidth = Dimensions.get('window').width;
   const iframeWidth = Math.min(screenWidth - 12, 445); // Max width of 445
@@ -193,7 +199,19 @@ export default function WalletChatWidget({
 
     console.log('---signed_message LOCAL ---', signedMessageDataLocal);
     //TODO: we need a way to not send this over and over if same data
-    postMessage({ target: 'signed_message', data: signedMessageDataLocal });
+
+    if(Platform.OS === "web"){
+      postMessage({ target: 'signed_message', data: signedMessageDataLocal });
+    } else {
+      console.log('---signed_message calling react-native postMessage from webViewRef:  ---', webViewRef)
+      webViewRef?.current?.injectJavaScript(`
+      console.log('---signed_message - PRINT BEFORE POSTMESSAGE');
+      if (window.postMessage) {
+        console.log('---signed_message - PRINT INSIDE POSTMESSAGE');
+        window.postMessage({ target: 'signed_message', data: signedMessageDataLocal }, '*');
+      }
+    `);
+    }
 
     //not forcing this to be open until we can prevent the previous line from happening over and over
     //setIsOpen(true)
@@ -208,6 +226,7 @@ export default function WalletChatWidget({
   };
 
   React.useEffect(() => {
+    console.log('updated connectedWallet:  ', connectedWallet);
     connectedWalletRef.current = connectedWallet;
   }, [connectedWallet]);
 
@@ -313,9 +332,9 @@ export default function WalletChatWidget({
         >
           <View style={styles.modalContent}>
             <WebView
+              ref={webViewRef}
               source={{ uri: url }}
               id={iframeId}
-              name="WalletChatWebView"
               onNavigationStateChange={handleNavigationStateChange}
               style={{
                 ...styles.widgetChatWidget,
@@ -323,12 +342,17 @@ export default function WalletChatWidget({
                 width: iframeWidth,
                 height: '100%',
               }}
+              //onMessage={event => postMessage(event.nativeEvent.data)}
             />
           </View>
         </Modal>
       )}
 
-      <TouchableOpacity style={{alignItems: "center", marginTop: 20, left: 15, top: 3,  borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => console.warn("from the package")} >
+      <TouchableOpacity style={{alignItems: "center", marginTop: 20, left: 15, top: 3,  borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
+        console.warn("from the package")
+        setIsOpen(true)
+        }
+        } >
         <ButtonOverlay
           notiVal={numUnread}
           showNoti={numUnread > 0}
