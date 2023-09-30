@@ -81,9 +81,7 @@ export default function WalletChatWidget({
     const signer = await connectedWallet?.provider.getSigner();
     console.log("signMessagePrompt (connectedWallet, signer, provider): ", connectedWallet, signer, connectedWallet?.provider);
 
-    // const domain = window.location.host;
-    // const origin = window.location.protocol + '//' + domain;
-    const domain = "gooddollar.walletchat.fun"
+    const domain = "gooddollar.walletchat.fun";
     const origin = "https://gooddollar.walletchat.fun"
     const statement =
       'You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.';
@@ -165,25 +163,9 @@ export default function WalletChatWidget({
     if (!ownerAddress?.address) return;
     const address = ownerAddress.address;
 
-    const nftInfo = parseNftFromUrl("gooddollar.walletchat.fun");
-    if (nftInfo.network) {
-      nftInfoForContract.current = {
-        ...nftInfo,
-        ownerAddress: address,
-      };
-    }
-
-    // if was able to retrieve the NFT info for the page -- send to that DM page
-    if (nftInfoForContract.current) {
-      postMessage({
-        target: 'nft_info',
-        data: { ...nftInfoForContract.current, redirect: true },
-      });
-    } else {
-      console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
-      // otherwise send to regular DM page
-      postMessage({ target: 'nft_info', data: { ownerAddress: address } });
-    }
+    console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
+    // otherwise send to regular DM page
+    postMessage({ target: 'nft_info', data: { ownerAddress: address } });
 
     setIsOpen(true);
   }, [ownerAddress]);
@@ -218,42 +200,12 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedMessageDataLocal]);
 
-  const sendContractInfo = () => {
-    // if (window.location.href === previousUrlSent.current) return;
-    // previousUrlSent.current = window.location.href;
-
-    const nftInfo = parseNftFromUrl("gooddollar.walletchat.fun");
-
-    if (setWidgetState) setWidgetState('foundNft', JSON.stringify(nftInfo));
-
-    if (nftInfo.network) {
-      nftInfoForContract.current = nftInfo;
-    }
-
-    postMessage({ target: 'nft_info', data: nftInfo });
-  };
-
   const handleNavigationStateChange = (navState: any) => {
     // Check if the URL has changed
     if (navState.url !== url) {
       setUrl(navState.url);
-
-      // Trigger your logic here when the URL changes
-      sendContractInfo();
     }
   };
-
-  React.useEffect(() => {
-    if(Platform.OS === "web") {
-      const observer = new MutationObserver(sendContractInfo);
-      const config = { subtree: true, childList: true };
-  
-      sendContractInfo();
-  
-      observer.observe(document, config);
-      return () => observer.disconnect();
-    }
-  }, [setWidgetState]);
 
   React.useEffect(() => {
     connectedWalletRef.current = connectedWallet;
@@ -352,7 +304,7 @@ export default function WalletChatWidget({
         </Modal>
       )}
 
-      {isOpen && (
+      {Platform.OS != 'web' && isOpen && (
         <Modal
           visible={isOpen}
           transparent={true}

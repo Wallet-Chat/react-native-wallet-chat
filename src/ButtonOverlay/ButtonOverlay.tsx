@@ -1,32 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Image, StyleSheet, Text, Animated, type ViewStyle } from 'react-native';
-import { WalletChatContext } from '../context';
-
-function getClickedNfts() {
-  try {
-    const clickedNfts =
-      (typeof localStorage !== 'undefined' &&
-        localStorage.getItem('clickedNfts')) ||
-      '';
-
-    return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : [];
-  } catch (error: any) {
-    return [];
-  }
-}
-
-function setClickedNfts(foundNft: string) {
-  try {
-    const clickedNfts = getClickedNfts();
-    const newClickedNfts = [...clickedNfts, foundNft];
-
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('clickedNfts', JSON.stringify(newClickedNfts));
-    }
-  } catch (error: any) {
-    return null;
-  }
-}
+import { TouchableOpacity, View, Image, StyleSheet, Text } from 'react-native';
 
 export function ButtonOverlay({
   notiVal,
@@ -39,70 +12,6 @@ export function ButtonOverlay({
   isOpen: boolean;
   clickHandler: (e: any) => void;
 }) {
-  const clickedNfts = getClickedNfts();
-  const widgetContext = React.useContext(WalletChatContext);
-  const widgetState = widgetContext?.widgetState;
-  const foundNft = widgetState?.foundNft;
-  const foundNftId = foundNft && JSON.parse(foundNft).itemId;
-  const shouldRing =
-    !isOpen &&
-    (foundNft ? !clickedNfts.includes(foundNft) && Boolean(foundNftId) : false);
-
-  const [isRinging, setIsRinging] = React.useState(shouldRing);
-  const pingAnimation = new Animated.Value(0);
-
-  React.useEffect(() => {
-    setIsRinging(shouldRing);
-
-    if (shouldRing) {
-      // Start the animation when isRinging becomes true
-      const animationInterval = Animated.loop(
-        Animated.sequence([
-          Animated.timing(pingAnimation, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: false,
-          }),
-          Animated.timing(pingAnimation, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: false,
-          }),
-        ])
-      );
-
-      animationInterval.start();
-
-      return () => {
-        animationInterval.stop(); // Clean up the interval when the component unmounts
-      };
-    }
-  }, [shouldRing]);
-
-  // Define the ping style with animated values
-  // Define the ping style with animated values
-const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
-  position: 'absolute', // Make sure 'position' is set to 'absolute'
-  top: -8,
-  right: -8,
-  width: 24,
-  height: 24,
-  left: 40,
-  backgroundColor: '#f56565',
-  borderRadius: 12,
-  transform: [
-    {
-      scale: pingAnimation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [1, 1.2],
-      }),
-    },
-  ],
-  opacity: pingAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 0.75],
-  }),
-};
 
   return (
     <View
@@ -111,14 +20,9 @@ const pingStyle: Animated.WithAnimatedObject<ViewStyle> = {
         isOpen && styles.popupButton__containerOpen,
       ]}
     >
-      {isRinging && <Animated.View style={[styles.ring, pingStyle]} />}
-
+      
       <TouchableOpacity
         onPress={(e: any) => {
-          setIsRinging(false);
-          if (foundNft) {
-            setClickedNfts(foundNft);
-          }
           clickHandler(e);
         }}
         style={[
