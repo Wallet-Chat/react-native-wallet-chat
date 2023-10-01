@@ -130,6 +130,16 @@ export default function WalletChatWidget({
       });
   }
 
+  const sendReactNativePostMessage = async () => {
+    console.log("sending signed_message postMessage!!!!!!!!!!")
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    console.log("sending signed_message postMessage AFTER 5 seconds ****")
+    webViewRef?.current?.postMessage(JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal }))
+    webViewRef?.current?.injectJavaScript(`
+        window.postMessage({ target: 'signed_message', data: ${signedMessageDataLocal} }, '*');
+      `);
+  }
+
   const clickHandler = () => {
     if(setWidgetState){
       setWidgetState('ownerAddress', {
@@ -341,6 +351,7 @@ export default function WalletChatWidget({
                 width: iframeWidth,
                 height: '100%',
               }}
+              onLoadEnd={sendReactNativePostMessage}
               //onMessage={event => postMessage(event.nativeEvent.data)}
             />
           </View>
