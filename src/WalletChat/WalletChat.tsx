@@ -205,12 +205,9 @@ export default function WalletChatWidget({
     } else {
       console.log('---signed_message calling react-native postMessage from webViewRef:  ---', webViewRef)
       webViewRef?.current?.injectJavaScript(`
-      console.log('---signed_message - PRINT BEFORE POSTMESSAGE');
-      if (window.postMessage) {
-        console.log('---signed_message - PRINT INSIDE POSTMESSAGE');
-        window.postMessage({ target: 'signed_message', data: signedMessageDataLocal }, '*');
-      }
-    `);
+        window.postMessage({ target: 'signed_message', data: ${signedMessageDataLocal} }, '*');
+      `);
+      console.log('---signed_message after calling react-native postMessage from webViewRef:  ---')
     }
 
     //not forcing this to be open until we can prevent the previous line from happening over and over
