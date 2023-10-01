@@ -333,6 +333,8 @@ export default function WalletChatWidget({
           <View style={styles.modalContent}>
             <WebView
               ref={webViewRef}
+              originWhitelist={['*']}
+              javaScriptEnabled={true}
               source={{ uri: url }}
               id={iframeId}
               onNavigationStateChange={handleNavigationStateChange}
