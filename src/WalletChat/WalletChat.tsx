@@ -359,7 +359,7 @@ export default function WalletChatWidget({
               }}
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
-              onMessage={(event) => {console.log("onMessage: ", event)}}
+              //onMessage={(event) => {console.log("onMessage: ", event)}}
             />
           </View>
         </Modal>
