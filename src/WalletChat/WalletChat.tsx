@@ -131,13 +131,11 @@ export default function WalletChatWidget({
   }
 
   const sendReactNativePostMessage = async () => {
-    console.log("sending signed_message postMessage!!!!!!!!!!")
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    console.log("sending signed_message postMessage AFTER 5 seconds ****")
-    webViewRef?.current?.postMessage(JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal }))
+    const postMessageStr = JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal })
     webViewRef?.current?.injectJavaScript(`
-        window.postMessage({ target: 'signed_message', data: ${signedMessageDataLocal} }, '*');
+        window.postMessage(${postMessageStr}, window.origin);
       `);
+      true;
   }
 
   const clickHandler = () => {
@@ -296,6 +294,14 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
+  // const runFirst = `
+  //     document.body.style.backgroundColor = 'red';
+  //     setTimeout(function() { window.alert('hi') }, 2000);
+  //     webViewRef?.current?.injectJavaScript(
+  //       window.postMessage("KEVIN FIRST!!!!", window.origin);
+  //     );
+  //     true; // note: this is required, or you'll sometimes get silent failures
+  //   `;
   return (
       <View
         style={{
@@ -351,8 +357,9 @@ export default function WalletChatWidget({
                 width: iframeWidth,
                 height: '100%',
               }}
+              //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
-              //onMessage={event => postMessage(event.nativeEvent.data)}
+              onMessage={(event) => {console.log("onMessage: ", event)}}
             />
           </View>
         </Modal>

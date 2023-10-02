@@ -1,6 +1,6 @@
 {
   "name": "react-native-wallet-chat",
-  "version": "0.1.93",
+  "version": "0.2.0",
   "description": "Wallet Chat React Native Component Library",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
