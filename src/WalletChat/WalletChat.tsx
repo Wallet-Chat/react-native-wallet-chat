@@ -49,6 +49,8 @@ export default function WalletChatWidget({
   >(null);
   const connectedWalletRef = React.useRef(connectedWallet);
   const didSendOrigin = React.useRef(0);
+  const sendChatWithOwnerPostMessage = React.useRef(0)
+  const alreadyRanPostMessage = React.useRef(0) //for some reason onLoad is called many times
   const webViewRef = React.useRef<WebView | null>(null);
 
   const screenWidth = Dimensions.get('window').width;
@@ -131,11 +133,24 @@ export default function WalletChatWidget({
   }
 
   const sendReactNativePostMessage = async () => {
+    if(alreadyRanPostMessage.current > 100 ) { return true };
+    alreadyRanPostMessage.current++;
+
+    console.log('signed_message SENT POSTMESSAGE react-native on startup: ');
     const postMessageStr = JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal })
     webViewRef?.current?.injectJavaScript(`
         window.postMessage(${postMessageStr}, window.origin);
       `);
-      true;
+
+    if (sendChatWithOwnerPostMessage.current > 0) {
+      sendChatWithOwnerPostMessage.current--;
+      console.log('ownerAddress SENT POSTMESSAGE react-native on startup: ', ownerAddress?.address);
+      const postMessageStrOwner = JSON.stringify({ target: 'nft_info', data: { ownerAddress: ownerAddress?.address } })
+      webViewRef?.current?.injectJavaScript(`
+          window.postMessage(${postMessageStrOwner}, window.origin);
+        `);
+    }  
+    true;   
   }
 
   const clickHandler = () => {
@@ -176,6 +191,7 @@ export default function WalletChatWidget({
 
     if (!ownerAddress?.address) return;
     const address = ownerAddress.address;
+    sendChatWithOwnerPostMessage.current = 100
 
     console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
     // otherwise send to regular DM page
