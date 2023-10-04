@@ -365,7 +365,7 @@ export default function WalletChatWidget({
         </Modal>
       )}
 
-      <TouchableOpacity style={{alignItems: "center", marginTop: 20, left: 15, top: 3,  borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
+      <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
         console.warn("from the package")
         setIsOpen(true)
         }
