@@ -75,6 +75,7 @@ export default function WalletChatWidget({
       chainId: 1,
       provider: '',
     });
+  const [webViewVisible, setWebViewVisible] = React.useState(true);
 
   async function trySignIn(wallet?: MessagedWallet) {
     signMessagePrompt();
@@ -310,6 +311,12 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
+  // Function to hide or close the WebView
+  const closeWebView = () => {
+    setWebViewVisible(false);
+    setIsOpen(false);
+  };
+
   // const runFirst = `
   //     document.body.style.backgroundColor = 'red';
   //     setTimeout(function() { window.alert('hi') }, 2000);
@@ -360,7 +367,7 @@ export default function WalletChatWidget({
           style={styles.modalContainer}
         >
           <View style={styles.modalContent}>
-            <WebView
+          {webViewVisible && <WebView
               ref={webViewRef}
               originWhitelist={['*']}
               javaScriptEnabled={true}
@@ -375,15 +382,27 @@ export default function WalletChatWidget({
               }}
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
-              //onMessage={(event) => {console.log("onMessage: ", event)}}
+              onMessage={(event) => {
+                  console.log("onMessage from React-Native-Widget: ", event)
+
+                  const message = JSON.parse(event.nativeEvent.data);
+
+                  // Handle the message here
+                  if (message.target === 'close_widget') {
+                    closeWebView()
+                    console.log("close_widget from React-Native-Widget!!!!!!!!!!!")
+                  }
+                }
+              }
             />
+          }
           </View>
         </Modal>
       )}
 
       <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
-        console.warn("from the package")
         setIsOpen(true)
+        //setWebViewVisible(true)
         }
         } >
         <ButtonOverlay
