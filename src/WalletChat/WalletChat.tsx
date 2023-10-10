@@ -137,7 +137,7 @@ export default function WalletChatWidget({
     if(alreadyRanPostMessage.current > 100 ) { return true };
     alreadyRanPostMessage.current++;
 
-    console.log('signed_message SENT POSTMESSAGE react-native on startup: ');
+    //console.log('signed_message SENT POSTMESSAGE react-native on startup: ');
     const postMessageStr = JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal })
     webViewRef?.current?.injectJavaScript(`
         window.postMessage(${postMessageStr}, window.origin);
@@ -145,7 +145,7 @@ export default function WalletChatWidget({
 
     if (sendChatWithOwnerPostMessage.current > 0) {
       sendChatWithOwnerPostMessage.current--;
-      console.log('ownerAddress SENT POSTMESSAGE react-native on startup: ', ownerAddress?.address);
+      //console.log('ownerAddress SENT POSTMESSAGE react-native on startup: ', ownerAddress?.address);
       const postMessageStrOwner = JSON.stringify({ target: 'nft_info', data: { ownerAddress: ownerAddress?.address } })
       webViewRef?.current?.injectJavaScript(`
           window.postMessage(${postMessageStrOwner}, window.origin);
@@ -194,7 +194,7 @@ export default function WalletChatWidget({
     const address = ownerAddress.address;
     sendChatWithOwnerPostMessage.current = 100
 
-    console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
+    //console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
     // otherwise send to regular DM page
     postMessage({ target: 'nft_info', data: { ownerAddress: address } });
 
@@ -313,6 +313,7 @@ export default function WalletChatWidget({
 
   // Function to hide or close the WebView
   const closeWebView = () => {
+    alreadyRanPostMessage.current = 0;
     webViewVisible.current = false;
     setIsOpen(false);
   };
@@ -388,14 +389,14 @@ export default function WalletChatWidget({
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
               onMessage={(event) => {
-                  console.log("onMessage from React-Native-Widget: ", event)
+                  //console.log("onMessage from React-Native-Widget: ", event)
 
                   const message = JSON.parse(event.nativeEvent.data);
 
                   // Handle the message here
                   if (message.target === 'close_widget') {
                     closeWebView()
-                    console.log("close_widget from React-Native-Widget!!!!!!!!!!!")
+                    //console.log("close_widget from React-Native-Widget!!!!!!!!!!!")
                   }
                 }
               }
