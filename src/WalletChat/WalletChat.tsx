@@ -75,7 +75,7 @@ export default function WalletChatWidget({
       chainId: 1,
       provider: '',
     });
-  const [webViewVisible, setWebViewVisible] = React.useState(true);
+  const webViewVisible = React.useRef(true);
 
   async function trySignIn(wallet?: MessagedWallet) {
     signMessagePrompt();
@@ -313,8 +313,13 @@ export default function WalletChatWidget({
 
   // Function to hide or close the WebView
   const closeWebView = () => {
-    setWebViewVisible(false);
+    webViewVisible.current = false;
     setIsOpen(false);
+  };
+
+  const openWebView = () => {
+    webViewVisible.current = true;
+    setIsOpen(true);
   };
 
   // const runFirst = `
@@ -400,11 +405,7 @@ export default function WalletChatWidget({
         </Modal>
       )}
 
-      <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
-        setIsOpen(true)
-        //setWebViewVisible(true)
-        }
-        } >
+      <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {openWebView()}} >
         <ButtonOverlay
           notiVal={numUnread}
           showNoti={numUnread > 0}
