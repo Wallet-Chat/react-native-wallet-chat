@@ -1,5 +1,5 @@
 import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import type {
   API,
   AppAPI,
@@ -14,6 +14,7 @@ import { parseNftFromUrl } from '../utils';
 import { WebView } from 'react-native-webview';
 import { ButtonOverlay } from '../ButtonOverlay';
 import { TouchableOpacity } from 'react-native';
+import SplashScreen from './SplashScreen';
 
 let URL = 'https://gooddollar.walletchat.fun';
 
@@ -63,6 +64,7 @@ export default function WalletChatWidget({
   const { widgetState, setWidgetState } = widgetContext || {};
   const { ownerAddress } = widgetState || {};
 
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current);
   const [numUnread, setNumUnread] = React.useState(0);
   const prevMessageSignature = React.useRef('');
@@ -332,6 +334,7 @@ export default function WalletChatWidget({
           animationType='slide'
           style={styles.modalContainer}
         >
+          {loading && <SplashScreen />}
           <View style={styles.modalContent} >
             <iframe
               title='WalletChat'
@@ -347,6 +350,7 @@ export default function WalletChatWidget({
               }}
               height={560}
               width={445}
+              onLoad={() => setLoading(false)}
             />
           </View>
         </Modal>
@@ -360,6 +364,7 @@ export default function WalletChatWidget({
           style={styles.modalContainer}
         >
           <View style={styles.modalContent}>
+            {loading && <SplashScreen />}
             <WebView
               ref={webViewRef}
               originWhitelist={['*']}
@@ -373,6 +378,7 @@ export default function WalletChatWidget({
                 width: iframeWidth,
                 height: '100%',
               }}
+              onLoad={() => setLoading(false)}
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
               //onMessage={(event) => {console.log("onMessage: ", event)}}
