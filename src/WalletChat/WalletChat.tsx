@@ -77,6 +77,7 @@ export default function WalletChatWidget({
       chainId: 1,
       provider: '',
     });
+  const webViewVisible = React.useRef(true);
 
   async function trySignIn(wallet?: MessagedWallet) {
     signMessagePrompt();
@@ -138,7 +139,7 @@ export default function WalletChatWidget({
     if(alreadyRanPostMessage.current > 100 ) { return true };
     alreadyRanPostMessage.current++;
 
-    console.log('signed_message SENT POSTMESSAGE react-native on startup: ');
+    //console.log('signed_message SENT POSTMESSAGE react-native on startup: ');
     const postMessageStr = JSON.stringify({ target: 'signed_message', data: signedMessageDataLocal })
     webViewRef?.current?.injectJavaScript(`
         window.postMessage(${postMessageStr}, window.origin);
@@ -146,7 +147,7 @@ export default function WalletChatWidget({
 
     if (sendChatWithOwnerPostMessage.current > 0) {
       sendChatWithOwnerPostMessage.current--;
-      console.log('ownerAddress SENT POSTMESSAGE react-native on startup: ', ownerAddress?.address);
+      //console.log('ownerAddress SENT POSTMESSAGE react-native on startup: ', ownerAddress?.address);
       const postMessageStrOwner = JSON.stringify({ target: 'nft_info', data: { ownerAddress: ownerAddress?.address } })
       webViewRef?.current?.injectJavaScript(`
           window.postMessage(${postMessageStrOwner}, window.origin);
@@ -195,7 +196,7 @@ export default function WalletChatWidget({
     const address = ownerAddress.address;
     sendChatWithOwnerPostMessage.current = 100
 
-    console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
+    //console.log('ownerAddress SENT POSTMESSAGE: ', ownerAddress);
     // otherwise send to regular DM page
     postMessage({ target: 'nft_info', data: { ownerAddress: address } });
 
@@ -312,6 +313,18 @@ export default function WalletChatWidget({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doSignIn]);
 
+  // Function to hide or close the WebView
+  const closeWebView = () => {
+    alreadyRanPostMessage.current = 0;
+    webViewVisible.current = false;
+    setIsOpen(false);
+  };
+
+  const openWebView = () => {
+    webViewVisible.current = true;
+    setIsOpen(true);
+  };
+
   // const runFirst = `
   //     document.body.style.backgroundColor = 'red';
   //     setTimeout(function() { window.alert('hi') }, 2000);
@@ -365,7 +378,7 @@ export default function WalletChatWidget({
         >
           <View style={styles.modalContent}>
             {loading && <SplashScreen />}
-            <WebView
+            {webViewVisible && <WebView
               ref={webViewRef}
               originWhitelist={['*']}
               javaScriptEnabled={true}
@@ -381,17 +394,25 @@ export default function WalletChatWidget({
               onLoad={() => setLoading(false)}
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
-              //onMessage={(event) => {console.log("onMessage: ", event)}}
+              onMessage={(event) => {
+                  //console.log("onMessage from React-Native-Widget: ", event)
+
+                  const message = JSON.parse(event.nativeEvent.data);
+
+                  // Handle the message here
+                  if (message.target === 'close_widget') {
+                    closeWebView()
+                    //console.log("close_widget from React-Native-Widget!!!!!!!!!!!")
+                  }
+                }
+              }
             />
+          }
           </View>
         </Modal>
       )}
 
-      <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {
-        console.warn("from the package")
-        setIsOpen(true)
-        }
-        } >
+      <TouchableOpacity style={{alignItems: "center", borderRadius: 21, justifyContent: 'center', height: 42, width: 42 }} onPress={() => {openWebView()}} >
         <ButtonOverlay
           notiVal={numUnread}
           showNoti={numUnread > 0}
