@@ -1,5 +1,5 @@
 import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import type {
   API,
   AppAPI,
@@ -64,7 +64,6 @@ export default function WalletChatWidget({
   const { widgetState, setWidgetState } = widgetContext || {};
   const { ownerAddress } = widgetState || {};
 
-  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current);
   const [numUnread, setNumUnread] = React.useState(0);
   const prevMessageSignature = React.useRef('');
@@ -347,7 +346,6 @@ export default function WalletChatWidget({
           animationType='slide'
           style={styles.modalContainer}
         >
-          {loading && <SplashScreen />}
           <View style={styles.modalContent} >
             <iframe
               title='WalletChat'
@@ -363,7 +361,6 @@ export default function WalletChatWidget({
               }}
               height={560}
               width={445}
-              onLoad={() => setLoading(false)}
             />
           </View>
         </Modal>
@@ -377,7 +374,6 @@ export default function WalletChatWidget({
           style={styles.modalContainer}
         >
           <View style={styles.modalContent}>
-            {loading && <SplashScreen />}
             {webViewVisible && <WebView
               ref={webViewRef}
               originWhitelist={['*']}
@@ -391,7 +387,8 @@ export default function WalletChatWidget({
                 width: iframeWidth,
                 height: '100%',
               }}
-              onLoad={() => setLoading(false)}
+              startInLoadingState={true}
+              renderLoading={() => <SplashScreen />}
               //injectedJavaScript={runFirst}
               onLoadEnd={sendReactNativePostMessage}
               onMessage={(event) => {
