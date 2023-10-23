@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
+import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter, ActivityIndicator, Text } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -63,6 +63,13 @@ export default function WalletChatWidget({
   const widgetContext = React.useContext(WalletChatContext);
   const { widgetState, setWidgetState } = widgetContext || {};
   const { ownerAddress } = widgetState || {};
+
+  const [iframeLoaded, setIframeLoaded] = React.useState(false);
+
+  // Function to handle iframe load
+  const handleIframeLoad = () => {
+    setIframeLoaded(true);
+  };
 
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current);
   const [numUnread, setNumUnread] = React.useState(0);
@@ -164,6 +171,10 @@ export default function WalletChatWidget({
     }
     setIsOpen((prev) => {
       const wasOpen = Boolean(prev);
+
+      if (wasOpen) {
+        setIframeLoaded(false)
+      }
       
       if (nftInfoForContract.current && !wasOpen) {
         postMessage({
@@ -314,6 +325,7 @@ export default function WalletChatWidget({
 
   // Function to hide or close the WebView
   const closeWebView = () => {
+    setIframeLoaded(false);
     alreadyRanPostMessage.current = 0;
     webViewVisible.current = false;
     setIsOpen(false);
@@ -343,26 +355,34 @@ export default function WalletChatWidget({
         <Modal
           visible={isOpen}
           transparent={true}
-          animationType='slide'
+          animationType='none'
           style={styles.modalContainer}
         >
-          <View style={styles.modalContent} >
+          <View style={styles.modalContent}>
             <iframe
               title='WalletChat'
               name='WalletChat'
               id={iframeId}
               src={url}
+              onLoad={handleIframeLoad}
               //@ts-ignore
               style={{
                 ...styles.widgetChatWidget,
                 ...(isOpen ? styles.widgetIsOpen : styles.widgetIsClosed),
                 width: iframeWidth,
-                height: "100%"
+                height: iframeLoaded ? "100%" : 0,
+                display: iframeLoaded ? 'block' : 'none',
               }}
               height={560}
               width={445}
             />
           </View>
+          {!iframeLoaded && (
+            <View style={styles.modalContent}>
+              <Text>Page Loading</Text>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          )}
         </Modal>
       )}
 
