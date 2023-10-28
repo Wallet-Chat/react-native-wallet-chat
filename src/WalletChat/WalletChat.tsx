@@ -1,4 +1,4 @@
-import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter, ActivityIndicator, Text } from 'react-native';
+import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
 import React from 'react';
 import type {
   API,
@@ -358,6 +358,9 @@ export default function WalletChatWidget({
           animationType='none'
           style={styles.modalContainer}
         >
+          {!iframeLoaded && (
+            <SplashScreen />
+          )}
           <View style={styles.modalContent}>
             <iframe
               title='WalletChat'
@@ -377,12 +380,6 @@ export default function WalletChatWidget({
               width={445}
             />
           </View>
-          {!iframeLoaded && (
-            <View style={styles.modalContent}>
-              <Text>Page Loading</Text>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-          )}
         </Modal>
       )}
 
