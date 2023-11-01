@@ -21,7 +21,7 @@ const SplashScreen = () => {
               }}
           />
           <Text style={styles.text}>
-              WalletChat
+              WalletChat Loading...
           </Text>
       </View>
     </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   text: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: "600",
     lineHeight: 51,
     color: "#FFFFFF"

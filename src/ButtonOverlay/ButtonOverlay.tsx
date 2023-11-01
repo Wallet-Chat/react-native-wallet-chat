@@ -53,7 +53,6 @@ export function ButtonOverlay({
 
       {showNoti && (
         <>
-          <View style={styles.notifPing} />
           <View style={styles.notif}>
             <Text style={styles.notifText}>{notiVal}</Text>
           </View>
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   popupButton__container: {
     position: 'relative',
     marginTop: 3,
-    height: 48, // You can adjust this value as needed
+    height: 48,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
@@ -81,9 +80,9 @@ const styles = StyleSheet.create({
   popupButton: {
     top: 0,
     right: 0,
-    width: 40, // You can adjust this value as needed
-    height: 40, // You can adjust this value as needed
-    borderRadius: 20, // half of width and height to make it round
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     overflow: 'hidden',
   },
   icon: {
@@ -105,22 +104,12 @@ const styles = StyleSheet.create({
   },
   ring: {
     position: 'absolute',
-    width: 40, // You can adjust this value as needed
-    height: 40, // You can adjust this value as needed
+    width: 40,
+    height: 40,
     right: 0,
-    borderRadius: 20, // half of width and height to make it round
+    borderRadius: 20,
     backgroundColor: '#718096',
     opacity: 0.75,
-  },
-  notifPing: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    width: 24,
-    height: 24,
-    left: 40,
-    backgroundColor: '#f56565',
-    borderRadius: 12,
   },
   notif: {
     position: 'absolute',
