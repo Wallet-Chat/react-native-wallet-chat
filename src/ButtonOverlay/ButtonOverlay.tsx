@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Image, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, View, Image, StyleSheet, Text, Platform } from 'react-native';
 
 export function ButtonOverlay({
   notiVal,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f56565',
     width: 20,
     height: 20,
-    left: 10,
+    left: Platform.OS === 'web' ? 10 : 30,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
