@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '30deg' }, { scale: 0 }],
   },
   activeIcon: {
-    position: 'absolute',
+    position: 'relative',
     opacity: 1,
     transform: [{ rotate: '0deg' }],
   },
