@@ -440,7 +440,6 @@ export default function WalletChatWidget({
 
 const styles = StyleSheet.create({
   widgetChatWidgetContainer: {
-    position: 'absolute',
     bottom: 2,
     right: 6,
     zIndex: 1000,
