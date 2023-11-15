@@ -413,6 +413,11 @@ export default function WalletChatWidget({
 
                   const message = JSON.parse(event.nativeEvent.data);
 
+                  if (message.target === 'unread_cnt') {
+                    //console.log("unread_cnt from React-Native-Widget!!!!!!!!!!!", message.data)
+                    setNumUnread(message.data);
+                  }
+
                   // Handle the message here
                   if (message.target === 'close_widget') {
                     closeWebView()
