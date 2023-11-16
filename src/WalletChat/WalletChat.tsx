@@ -448,13 +448,13 @@ const styles = StyleSheet.create({
     bottom: 2,
     right: 6,
     zIndex: 1000,
-    // Android-specific shadow
-    elevation: 4,
-    // iOS-specific shadow
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
+    // // Android-specific shadow
+    // elevation: 4,
+    // // iOS-specific shadow
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowOpacity: 0.15,
+    // shadowRadius: 12,
   },
   widgetChatWidgetContainerOpen: {
     bottom: 0,

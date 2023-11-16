@@ -67,10 +67,11 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginTop: 3,
     height: 48,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    // this was causing a outlined box to show up on GD web view - not sure why
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.15,
+    // shadowRadius: 8,
   },
   popupButton__containerOpen: {
     right: 6,
