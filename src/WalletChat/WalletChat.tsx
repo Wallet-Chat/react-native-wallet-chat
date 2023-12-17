@@ -1,5 +1,5 @@
 import { Platform, View, StyleSheet, Modal, Dimensions, DeviceEventEmitter } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {
   API,
   AppAPI,
@@ -65,6 +65,35 @@ export default function WalletChatWidget({
   const { ownerAddress } = widgetState || {};
 
   const [iframeLoaded, setIframeLoaded] = React.useState(false);
+
+  const fetchUnreadCntData = async () => {
+    try {
+      //console.log("fetching unread for account: ", connectedWallet?.account)
+      const response = await fetch(`https://api.v2.walletchat.fun/get_unread_cnt/${connectedWallet?.account}`);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      setNumUnread(data)
+    } catch (error) {
+      //console.error('Error fetching unread count data:', error);
+    }
+  };  
+
+  useEffect(() => {
+    // Fetch data initially
+    fetchUnreadCntData();
+
+    // Set up interval to fetch data every 10 seconds
+    const intervalId = setInterval(() => {
+      fetchUnreadCntData();
+    }, 10000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);   
 
   // Function to handle iframe load
   const handleIframeLoad = () => {
